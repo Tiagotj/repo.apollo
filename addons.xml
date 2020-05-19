@@ -26,12 +26,10 @@
     <import addon="script.module.simple.downloader"/>
     <import addon="script.module.requests"/>
     <import addon="script.module.httplib2" />
-    <import addon="script.module.youtube.dl" optional="true"/>
     <import addon="script.module.urlresolver" optional="true"/>
     <import addon="script.module.simplejson" />
 	<import addon="script.common.plugin.cache"/>
     <import addon="script.module.metahandler"/>
-    <import addon="plugin.video.youtube"/>
     <import addon="script.module.livestreamer"/>
     <import addon="script.module.pyamf"/>
 	<import addon="script.module.addon.common" />
