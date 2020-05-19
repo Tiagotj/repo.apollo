@@ -17,17 +17,27 @@
 
 <addon id="plugin.video.apollo" name="[COLOR deepskyblue][B]APOLLO[/COLOR][/B]" version="1.4.2" provider-name="[COLOR deepskyblue][B]TEAM[/COLOR][/B][COLOR orange][B] APOLLO[/COLOR][/B]">
 <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
-    <import addon="script.module.t0mm0.common"/>
+
+<import addon="xbmc.python" version="2.25.0"/>
+	<import addon="script.module.t0mm0.common"/>
     <import addon="script.module.beautifulsoup"/>
-    <import addon="script.module.beautifulsoup4"/>
+    <import addon="script.module.simple.downloader"/>
+    <import addon="script.module.beautifulsoup4" />
     <import addon="script.module.simple.downloader"/>
     <import addon="script.module.requests"/>
-    <import addon="script.module.httplib2"/>
-    <import addon="script.module.urlresolver"/>
-    <import addon="script.module.simplejson"/>
-    <import addon="script.common.plugin.cache"/>
+    <import addon="script.module.httplib2" />
+    <import addon="script.module.youtube.dl" optional="true"/>
+    <import addon="script.module.urlresolver" optional="true"/>
+    <import addon="script.module.simplejson" />
+	<import addon="script.common.plugin.cache"/>
     <import addon="script.module.metahandler"/>
+    <import addon="plugin.video.youtube"/>
+    <import addon="script.module.livestreamer"/>
+    <import addon="script.module.pyamf"/>
+	<import addon="script.module.addon.common" />
+	<import addon="script.module.addon.signals"/>
+    <import addon = "script.module.unidecode"/>
+
 </requires>
 <extension point="xbmc.python.pluginsource" library="apollo.py">
 <provides>video</provides>
@@ -76,91 +86,6 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.youtube" name="YouTube" version="6.6.0.0.3" provider-name="anxdpanic, bromix">
-    <requires>
-        <import addon="xbmc.python" version="2.20.0"/>
-        <import addon="script.module.six" version="1.11.0"/>
-        <import addon="script.module.requests" version="2.12.4"/>
-        <import addon="script.module.inputstreamhelper" version="0.2.2" optional="true"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="resources/lib/default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.service" library="resources/lib/startup.py" start="login"/>
-    <extension point="xbmc.python.module" library="resources/lib/"/>
-    <extension point="xbmc.addon.metadata">
-        <news>
-[add] 'Play (Ask for quality)' context menu
-[add] search by channel or playlist id
-[add] hide_folders, hide_playlists, hide_search, and hide_live to /channel/&lt;channel_id&gt;/ end-point
-    - ie. plugin://plugin.video.youtube/channel/UC4PooiX37Pld1T8J5SYT-SQ/?hide_folders=true will hide all folders(Playlists, Search, and Live) in the channel listing
-[fix] playback for some videos (ie. music videos)
-[fix] playback of some videos with no adaptive video streams
-[fix] don't update watch history when incognito/screensaver/live |contrib: regseb|
-[fix] search prompting for input after video playback or refresh
-[lang] el_gr strings |contrib: twilight0|
-[lang] es_es strings |contrib: roliverosc|
-[lang] pt_br strings |contrib: MediaBrasil|
-[lang] cs_cz strings |contrib: llzn.cz|
-[lang] it_it strings |contrib: SebastianoPistore|
-[lang] de_de strings |contrib: tweimer|
-        </news>
-        <assets>
-            <icon>icon.png</icon>
-            <fanart>fanart.jpg</fanart>
-        </assets>
-        <summary lang="en_GB">Plugin for YouTube</summary>
-        <description lang="en_GB">YouTube is one of the biggest video-sharing websites of the world.</description>
-        <disclaimer lang="en_GB">This plugin is not endorsed by Google</disclaimer>
-        <summary lang="he_IL">תוסף עבור YouTube</summary>
-        <description lang="he_IL">YouTube הוא אחד מאתרי שיתוף הווידאו הגדולים בעולם.</description>
-        <summary lang="de_DE">Plugin für YouTube</summary>
-        <description lang="de_DE">YouTube ist eines der größten Video-Sharing-Websites der Welt.</description>
-        <summary lang="pl_PL">Wtyczka YouTube</summary>
-        <description lang="pl_PL">YouTube jest jednym z największych na świecie serwisów udostępniania wideo.</description>
-        <summary lang="hu_HU">YouTube kiegészítő</summary>
-        <description lang="hu_HU">A YouTube világ egyik legnagyobb videómegosztó weboldala.</description>
-        <summary lang="es_ES">Plugin para YouTube</summary>
-        <description lang="es_ES">YouTube es uno de los sitios web para compartir videos más grande del mundo.</description>
-        <disclaimer lang="es_ES">Este add-on no está respaldado por Google</disclaimer>
-        <summary lang="es_MX">Plugin para YouTube</summary>
-        <description lang="es_MX">YouTube es uno de los más grandes sitios web de intercambio de videos del mundo.</description>
-        <disclaimer lang="es_MX">Este add-on no está respaldado por Google</disclaimer>
-        <summary lang="ru_RU">Видеодополнение YouTube</summary>
-        <description lang="ru_RU">YouTube - популярнейший видеохостинговый сайт, предоставляющий пользователям услуги хранения, доставки и показа видео.</description>
-        <summary lang="fr_FR">Plugin pour YouTube</summary>
-        <description lang="fr_FR">YouTube est l'un des plus grands sites de partage vidéos du monde.</description>
-        <summary lang="zh_CN">YouTube附加元件</summary>
-        <description lang="zh_CN">「Youtube」是全世界最大的影片分享網站</description>
-        <summary lang="zh_TW">YouTube附加元件</summary>
-        <description lang="zh_TW">「Youtube」是全世界最大的影片分享網站</description>
-        <disclaimer lang="zh_TW">此附加元件未由Google支持</disclaimer>
-        <summary lang="bg_BG">Добавка за YouTube</summary>
-        <description lang="bg_BG">YouTube е един от най-големите уеб сайтове за споделяне на видео в целия свят.</description>
-        <summary lang="el_GR">Πρόσθετο YouTube</summary>
-        <description lang="el_GR">Το YouTube είναι μία από τις μεγαλύτερες ιστοσελίδες διαμοιρασμού βίντεο στον κόσμο.</description>
-        <disclaimer lang="el_GR">Η παρούσα μικροεφαρμογή δεν έχει υϊοθετηθεί από την Google</disclaimer>
-        <summary lang="nb_NO">Tillegg for YouTube</summary>
-        <description lang="nb_NO">YouTube er en av verdens største nettsider for videodeling.</description>
-        <summary lang="ko_KR">유튜브 플러그인</summary>
-        <description lang="ko_KR">유튜브는 세상에서 가장 큰 동영상 공유 사이트 중의 하나입니다.</description>
-        <summary lang="cs_CZ">Plugin pro YouTube</summary>
-        <description lang="cs_CZ">YouTube je jedna z největších webových stránek světa sdílející video.</description>
-        <disclaimer lang="cs_CZ">Tento plugin není schválen společností Google</disclaimer>
-        <summary lang="tr_TR">YouTube için eklenti</summary>
-        <description lang="tr_TR">YouTube, dünya üzerindeki en büyük video paylaşma platformlarından birisidir</description>
-        <disclaimer lang="tr_TR">Bu eklenti Google tarafından üretilmemiştir</disclaimer>
-        <language></language>
-        <platform>all</platform>
-        <license>GPL-2.0-only</license>
-        <forum>https://forum.kodi.tv/showthread.php?tid=348464</forum>
-        <website>https://www.youtube.com</website>
-        <email>ytplugin at datanet dot ws</email>
-        <source>https://github.com/jdf76/plugin.video.youtube</source>
-        <reuselanguageinvoker>true</reuselanguageinvoker>
-    </extension>
-</addon>
-
 <addon
 	id="repo.apollo"
 	name="[COLOR deepskyblue][B]APOLLO[/COLOR][/B]"
@@ -198,6 +123,480 @@
 </addon>
 
 <addon id="repository.elementum" name="Elementum Repository" version="0.1.52" provider-name="elgatito"><requires></requires><extension point="xbmc.addon.repository" name="Elementum Repository"><info compressed="false">http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml</info><checksum>http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml.md5</checksum><datadir zip="true">http://127.0.0.1:65220/repository/elgatito/</datadir></extension><extension point="xbmc.addon.metadata"><platform>all</platform><summary lang="en">GitHub repository for Elementum updates</summary></extension></addon>
+
+<addon id="script.common.plugin.cache" name="Common plugin cache" provider-name="anxdpanic, TheCollective" version="2.6.1">
+    <requires>
+        <import addon="xbmc.python" version="2.24.0"/>
+    </requires>
+    <extension point="xbmc.service" library="resources/lib/entry_point.py" start="startup"/>
+    <extension point="xbmc.python.module" library="resources/lib/storage_server/"/>
+    <extension point="xbmc.addon.metadata">
+        <news>
+[fix] shutdown taking longer than 5 seconds
+[fix] ignore encoding issues for socket data
+        </news>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+        <platform>all</platform>
+        <summary lang="en_GB">A common caching API for Kodi add-ons.</summary>
+        <license>GPL-3.0-only</license>
+        <source>https://github.com/anxdpanic/script.common.plugin.cache</source>
+    </extension>
+</addon>
+
+<addon id="script.module.addon.common"
+	     name="Common addon methods"
+	     version="2.0.0"
+	     provider-name="Eldorado (original: t0mm0)">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Collection of commonly used addon routines</summary>
+    <description lang="en">Collection of commonly used addon routines to simplify addon development.</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+  </extension>
+</addon>
+
+<addon id="script.module.addon.signals"
+    name="Addon Signals"
+    version="0.0.5"
+    provider-name="Rick Phillips (ruuk)">
+    <requires>
+        <import addon="xbmc.python" version="2.14.0" />
+    </requires>
+    <extension point="xbmc.python.module" library="lib" />
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">Inter-addon signalling</summary>
+        <description lang="en">Provides signal/slot mechanism for inter-addon communication</description>
+        <platform>all</platform>
+        <license>LGPL-2.1-only</license>
+        <source>https://github.com/ruuk/script.module.addon.signals</source>
+    </extension>
+</addon>
+
+<addon id="script.module.beautifulsoup"
+       name="BeautifulSoup"
+       version="3.2.1"
+       provider-name="Leonard Richardson (leonardr@segfault.org)">
+  <requires>
+    <import addon="xbmc.python"
+    		version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary>HTML/XML parser for quick-turnaround applications like screen-scraping</summary>
+    <description>Beautiful Soup parses arbitrarily invalid SGML and provides a variety of methods and Pythonic idioms for iterating and searching the parse tree.</description>
+    <license>BSD</license>
+    <platform>all</platform>
+  </extension>
+</addon>
+
+<addon id="script.module.beautifulsoup4"
+       name="BeautifulSoup4"
+       version="4.6.2"
+       provider-name="Leonard Richardson (leonardr@segfault.org)">
+  <requires>
+    <import addon="xbmc.python"
+             version="2.25.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Screen-scraping library</summary>
+    <description lang="en_GB">Beautiful Soup is a library that makes it easy to scrape information from web pages. It sits atop an HTML or XML parser, providing Pythonic idioms for iterating, searching, and modifying the parse tree.</description>
+    <license>MIT</license>
+    <platform>all</platform>
+    <website>https://www.crummy.com/software/BeautifulSoup/</website>
+    <assets>
+      <icon>icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.certifi"
+       name="certifi"
+       version="2019.9.11"
+       provider-name="Kenneth Reitz">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Python package for providing Mozilla's CA Bundle.</summary>
+    <description lang="en_GB">Certifi is a carefully curated collection of Root Certificates for validating the trustworthiness of SSL certificates while verifying the identity of TLS hosts. It has been extracted from the Requests project.</description>
+    <license>MPL-2.0</license>
+    <website>https://certifi.io</website>
+    <source>https://github.com/certifi/python-certifi</source>
+    <email>freso.dk AT gmail.com</email>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.chardet"
+       name="chardet"
+       version="3.0.4"
+       provider-name="Dan Blanchard">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Universal encoding detector</summary>
+    <description lang="en_GB">Packed for Kodi from https://github.com/chardet/chardet</description>
+    <license>LGPL</license>
+    <platform>all</platform>
+    <language></language>
+    <forum></forum>
+    <website>https://chardet.readthedocs.io/en/latest/</website>
+    <source>https://github.com/beenje/script.module.chardet</source>
+    <email>beenje AT gmail.com</email>
+  </extension>
+</addon>
+
+<addon id="script.module.futures"
+       name="futures"
+       version="2.2.0"
+       provider-name="Brian Quinlan">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib"/>
+  <extension point="xbmc.addon.metadata">
+    <summary>A futures implementation for Python</summary>
+    <description>Backport of the concurrent.futures package from Python 3.2</description>
+    <platform>all</platform>
+    <license>BSD</license>
+    <source>https://code.google.com/p/pythonfutures/source/browse</source>
+    <website>https://code.google.com/p/pythonfutures</website>
+  </extension>
+</addon>
+
+<addon id="script.module.httplib2" name="httplib2" provider-name="Joe Gregorio" version="0.10.3">
+  <requires>
+    <import addon="xbmc.python" version="2.14.0" />
+  </requires>
+  <extension library="lib" point="xbmc.python.module" />
+  <extension point="xbmc.addon.metadata">
+        <description lan="en">httplib2 module</description>
+        <summary lang="en">httplib2 module</summary>
+        <license>MIT</license>
+        <platform>all</platform>
+        <email></email>
+        <website>https://pypi.python.org/pypi/httplib2</website>
+        <forum></forum>
+        <source>https://github.com/httplib2/httplib2</source>
+        <language></language>
+   </extension>
+</addon>
+
+<addon id="script.module.idna"
+       name="idna"
+       version="2.8"
+       provider-name="Kim Davies">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Internationalized Domain Names for Python</summary>
+    <description lang="en_GB">Packed for KODI from https://github.com/kjd/idna</description>
+    <platform>all</platform>
+    <language></language>
+    <license>BSD</license>
+    <forum></forum>
+    <website>https://github.com/kjd/idna</website>
+    <source>https://github.com/Freso/script.module.idna</source>
+    <email>freso.dk AT gmail.com</email>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.livestreamer"
+       name="livestreamer"
+       version="1.12.0"
+       provider-name="Christopher Rosell">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+    <import addon="script.module.requests"
+                      version="1.1.0"
+                     optional="false"/>
+    <import addon="script.module.singledispatch"
+                      version="3.4.0.3"
+                     optional="false"/>
+    <import addon="script.module.futures"
+                      version="2.2.0"
+                     optional="false"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib"/>
+  <extension point="xbmc.addon.metadata">
+    <summary>Livestreamer extracts streams from various services</summary>
+    <description>Livestreamer is a command-line utility that pipes video streams from various services into a video player, such as VLC. The main purpose of Livestreamer is to allow the user to avoid buggy and CPU heavy flash plugins but still be able to enjoy various streamed content. There is also an API available for developers who want access to the video stream data.</description>
+    <platform>all</platform>
+    <license>Simplified BSD</license>
+    <source>https://github.com/chrippa/livestreamer.git</source>
+    <website>http://livestreamer.io</website>
+  </extension>
+</addon>
+
+<addon id="script.module.metahandler"
+     name="metahandler"
+     version="2.9.0"
+     provider-name="Eldorado">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.simplejson" version="3.3.0"/>
+    <import addon="script.module.addon.common" version="2.0.0"/>
+    <import addon="script.module.myconnpy" version="1.1.6"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Downloads Artwork for TV shows, Movies and Music videos for addons and stores them in a local SQLITE database</summary>
+    <description lang="en">Queries, stores, and returns metadata for TV shows, Movies and Musicvideos. [CR]Sources:[CR]www.thetvdb.com[CR]www.themoviedb.org[CR]www.imdb.com</description>
+    <disclaimer lang="en"></disclaimer>
+    <language></language>
+    <platform>all</platform>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+    <forum></forum>
+    <website></website>
+    <email></email>
+    <source></source>
+  </extension>
+</addon>
+
+<addon id="script.module.myconnpy"
+       name="MySQL Connector/Python"
+       version="1.1.7"
+       provider-name="MySQL">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.module" library="lib"/>
+    <extension point="xbmc.addon.metadata">
+        <summary lang="en">MySQL Connector/Python</summary>
+        <description lang="en">MySQL Connector/Python is implementing the MySQL Client/Server protocol completely in Python. This means you don't have to compile anything or MySQL (client library) doesn't even have to be installed on the machine.</description>
+        <license>GPLv2</license>
+        <platform>all</platform>
+        <website>http://dev.mysql.com/doc/connector-python/en/index.html</website>
+        <source>http://dev.mysql.com/downloads/connector/python/</source>
+    </extension>
+</addon>
+
+<addon id="script.module.parsedom" name="Parsedom for xbmc plugins" provider-name="TheCollective" version="2.5.2">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Parsedom for xbmc plugins.</summary>
+  </extension>
+  <extension library="lib" point="xbmc.python.module" />
+  <extension point="xbmc.addon.metadata">
+        <license>GPLv3</license>
+        <platform>all</platform>
+        <email></email>
+        <website></website>
+        <forum>http://forum.xbmc.org/showthread.php?tid=116498</forum>
+        <source>https://github.com/HenrikDK/xbmc-common-plugin-functions</source>
+        <language></language>
+   </extension>
+</addon>
+
+<addon id="script.module.pyamf"
+       name="PyAMF"
+       version="0.6.2"
+       provider-name="Mark Honeychurch (markhoney)">
+  <requires>
+    <import addon="xbmc.python"
+    		version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary>PyAMF provides Action Message Format (AMF) support for Python that is compatible with the Adobe Flash Player.</summary>
+    <description>The Adobe Integrated Runtime and Adobe Flash Player use AMF to communicate between an application and a remote server. AMF encodes remote procedure calls (RPC) into a compact binary representation that can be transferred over HTTP/HTTPS or the RTMP/RTMPS protocol. Objects and data values are serialized into this binary format, which increases performance, allowing applications to load data up to 10 times faster than with text-based formats such as XML or SOAP.
+AMF3, the default serialization for ActionScript 3.0, provides various advantages over AMF0, which is used for ActionScript 1.0 and 2.0. AMF3 sends data over the network more efficiently than AMF0. AMF3 supports sending int and uint objects as integers and supports data types that are available only in ActionScript 3.0, such as ByteArray, ArrayCollection, ObjectProxy and IExternalizable.</description>
+    <license>MIT</license>
+    <platform>all</platform>
+	<source>http://www.pyamf.org/</source>
+  </extension>
+</addon>
+
+<addon id="script.module.requests"
+       name="requests"
+       version="2.22.0"
+       provider-name="kennethreitz">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+    <import addon="script.module.urllib3" version="1.22"/>
+    <import addon="script.module.chardet" version="3.0.4"/>
+    <import addon="script.module.idna" version="2.6"/>
+    <import addon="script.module.certifi" version="2017.07.27.1"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">Python HTTP for Humans</summary>
+    <description lang="en_GB">Packed for KODI from https://pypi.org/project/requests/</description>
+    <platform>all</platform>
+    <language></language>
+    <license>Apache2</license>
+    <forum></forum>
+    <website>http://python-requests.org</website>
+    <source>https://github.com/Freso/script.module.requests</source>
+    <email>freso.dk AT gmail.com</email>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
+
+<addon id="script.module.simple.downloader" name="Simple Downloader for xbmc plugins" provider-name="TheCollective" version="1.9.5">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.common.plugin.cache" version="2.5.0" />
+    <import addon="script.module.parsedom" version="2.5.1" />
+  </requires>
+  <extension library="default.py" point="xbmc.service" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Simple downloader for xbmc plugins.</summary>
+  </extension>
+  <extension library="lib" point="xbmc.python.module" />
+</addon>
+
+<addon id="script.module.simplejson"
+       name="simplejson"
+       version="3.16.1"
+       provider-name="Bob Ippolito">
+  <requires>
+    <import addon="xbmc.python" version="2.14.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <language></language>
+    <summary lang="en">Simple, fast, extensible JSON encoder/decoder for Python</summary>
+    <description lang="en">Simple, fast, extensible JSON encoder/decoder for Python</description>
+    <disclaimer lang="en">Code taken from https://pypi.org/project/simplejson/</disclaimer>
+    <license>MIT License, Academic Free License v. 2.1</license>
+    <website>https://pypi.org/project/simplejson/</website>
+    <source>https://github.com/simplejson/simplejson</source>
+  </extension>
+</addon>
+
+<addon id="script.module.singledispatch"
+       name="singledispatch"
+       version="3.4.0.3"
+       provider-name="Łukasz Langa">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib"/>
+  <extension point="xbmc.addon.metadata">
+    <summary>Single-dispatch generic functions</summary>
+    <description>This library brings functools.singledispatch from Python 3.4 to Python 2.6-3.3.</description>
+    <platform>all</platform>
+    <license>MIT</license>
+    <source>https://pypi.python.org/pypi/singledispatch#downloads</source>
+    <website>http://docs.python.org/3/library/functools.html#functools.singledispatch</website>
+  </extension>
+</addon>
+
+<addon id="script.module.six"
+       name="six"
+       version="1.13.0"
+       provider-name="gutworth">
+  <requires>
+    <import addon="xbmc.python"
+    		version="2.14.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">Python 2 and 3 compatibility utilities.</summary>
+    <description lang="en">Six is a Python 2 and 3 compatibility library. It provides utility functions for smoothing over the differences between the Python versions with the goal of writing Python code that is compatible on both Python versions. See the documentation for more information on what is provided.</description>
+    <platform>all</platform>
+    <license>MIT</license>
+    <source>https://pypi.org/project/six/</source>
+    <website>https://pypi.org/project/six/</website>
+  </extension>
+</addon>
+
+<addon id="script.module.t0mm0.common"
+	     name="t0mm0's common stuff"
+	     version="2.1.1"
+	     provider-name="t0mm0">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Collection of commonly used addon routines</summary>
+    <description lang="en">Collection of commonly used addon routines to simplify addon development.</description>
+  </extension>
+</addon>
+
+<addon id="script.module.unidecode" name="unidecode" version="1.1.1" provider-name="Tomaz Solc (Tomaz.solc@tablix.org)">
+	<requires>
+		<import addon="xbmc.python" version="2.14.0"/>
+	</requires>
+	<extension point="xbmc.python.module" library="lib" />
+	<extension point="xbmc.addon.metadata">
+		<platform>all</platform>
+		<summary lang="en">ASCII transliterations of Unicode text by Sean M. Burke and Tomaz Solc</summary>
+		<description lang="en">ASCII transliterations of Unicode text by Sean M. Burke and Tomaz Solc</description>
+		<disclaimer lang="en">Code taken from https://pypi.org/project/Unidecode</disclaimer>
+		<license>GPL-2.0-or-later</license>
+		<website>https://pypi.org/project/Unidecode</website>
+		<source>https://pypi.org/project/Unidecode</source>
+	</extension>
+</addon>
+
+<addon id="script.module.urllib3"
+       name="urllib3"
+       version="1.25.6"
+       provider-name="Andrey Petrov">
+  <requires>
+    <import addon="xbmc.python" version="2.25.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en_GB">HTTP library with thread-safe connection pooling, file post, and more.</summary>
+    <description lang="en_GB">Packed for KODI from https://pypi.org/project/urllib3/</description>
+    <license>MIT</license>
+    <website>https://urllib3.readthedocs.io/en/latest/</website>
+    <source>https://github.com/urllib3/urllib3</source>
+    <email>freso.dk AT gmail.com</email>
+    <assets>
+      <icon>resources/icon.png</icon>
+    </assets>
+  </extension>
+</addon>
 
 <addon id="script.video.F4mProxy"
 	     name="F4mProxy"
