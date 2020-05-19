@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon 
-	id="plugin.video.apollo" 
+	id="repo.apollo" 
 	name="[COLOR deepskyblue][B]APOLLO[/COLOR][/B]" 
 	version="1.00" 
 	provider-name="[COLOR deepskyblue][B]TEAM[/COLOR][/B][COLOR orange][B] APOLLO[/COLOR][/B]"> 
