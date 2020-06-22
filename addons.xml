@@ -35,7 +35,7 @@
 <extension point="xbmc.addon.repository" name="Repositorio APOLLO">
 <info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/addons.xml</info>
 <checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/addons.xml.md5</checksum>
-<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/plugin.video.apollo/apollo.py</datadir>
+<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/plugin.video.apollo/apollo.py</datadir>
 </extension>
 <extension point="xbmc.addon.metadata">
 <summary lang="en">FEITO PARA FAMILIA!</summary>
