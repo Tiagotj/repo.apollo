@@ -118,7 +118,7 @@
 	<extension point="xbmc.addon.repository" name="ElementumAPL">
 		<info compressed="false">https://deusapollo.com/APOLLO/repo/addons.xml</info>
 		<checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
-		<datadir zip="true">https://deusapollo.com/APOLLO/repo/Plugins/</datadir>
+		<datadir zip="true">https://deusapollo.com/APOLLO/repo/plugin.video.elementum/plugin.video.elementum-0.1.58.zip</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>ElementumAPL</summary>
