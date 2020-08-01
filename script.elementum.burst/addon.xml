@@ -19,7 +19,7 @@
 		<disclaimer lang="es">El autor no aloja ni distribuye ninguno de los contenidos mostrados por este complemento. El autor no tiene ninguna afiliación con los proveedores de contenido.</disclaimer>    
 		<license>WTFPL, Version 2, December 2004. See included LICENSE.</license>
         <website>https://elementum.surge.sh</website>
-        <source>https://deusapollo.com/APOLLO/repo/script.elementum.burst</source>
+        <source>https://github.com/elgatito/script.elementum.burst</source>
         <forum>TODO</forum>
         <assets>
             <icon>icon.png</icon>
