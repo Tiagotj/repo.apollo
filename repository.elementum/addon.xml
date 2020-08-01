@@ -1,12 +1,12 @@
-<addon id="plugin.video.APOLLO.torrents" name="APOLLO" version="1.8" provider-name="Team APOLLO">
+<addon id="plugin.video.elementum.torrents" name="APOLLO" version="1.3" provider-name="Team APOLLO">
     <requires>
         <import addon="xbmc.python" version="2.24.0" />
         <import addon="ElementumAPOLLO.repository" optional="false" />
     </requires>
-    <extension point="xbmc.python.pluginsource" library="apollo.py">
+    <extension point="xbmc.python.pluginsource" library="elementum.py">
         <provides>video</provides>
     </extension>
-    <extension point="xbmc.addon.repository" name="apollo Repositório">
+    <extension point="xbmc.addon.repository" name="elementum Repositório">
 		<info compressed="false">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
 		<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
 		<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/Plugins</datadir>
