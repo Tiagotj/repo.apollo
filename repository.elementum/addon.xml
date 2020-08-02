@@ -4,7 +4,7 @@
 	<extension point="xbmc.addon.repository" name="Elementum">
 		<info compressed="false">https://deusapollo.com/APOLLO/repo/addons.xml</info>
 		<checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
-		<datadir zip="true">https://deusapollo.com/APOLLO/repo/Plugins/</datadir>
+		<datadir zip="true">https://deusapollo.com/APOLLO/repo/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Elementum</summary>
