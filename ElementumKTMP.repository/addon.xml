@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="ElementumAPL.repository" name="Elementum universal" version="1.3" provider-name="Team APOLLO">
+	<extension point="xbmc.addon.repository" name="ElementumAPL">
+		<info compressed="false">https://raw.githubusercontent.com/keltecmp-repo/repo/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/keltecmp-repo/repo/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/keltecmp-repo/repo/master/Plugins</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>ElementumAPL</summary>
+		<description>ElementumAPL - Proibido reproducao //Grupo Facebook KeltecMP IPTV https://www.facebook.com/groups/KelTec.Media.Play/</description>
+		<platform>all</platform>
+	</extension>
+</addon>
