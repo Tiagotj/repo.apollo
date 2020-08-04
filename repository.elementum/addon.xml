@@ -1,14 +1,18 @@
-</addon>
-
-<addon id="Elementum.repository" name="Elementum" version="0.1.5.2" provider-name="APOLLO">
-	<extension point="xbmc.addon.repository" name="Elementum">
-		<info compressed="false">https://deusapollo.com/APOLLO/repo/addons.xml</info>
-		<checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
-		<datadir zip="true">https://deusapollo.com/APOLLO/repo/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary>Elementum</summary>
-		<description>Elementum filmes e séries em alta definição!</description>
-		<platform>all</platform>
-	</extension>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="repository.elementum" name="Elementum Repository" version="0.1.52" provider-name="elgatito"><requires></requires><extension point="xbmc.addon.repository" name="Elementum Repository"><info compressed="false">http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml</info><checksum>http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml.md5</checksum><datadir zip="true">http://127.0.0.1:65220/repository/elgatito/</datadir></extension><extension point="xbmc.addon.metadata"><platform>all</platform><summary lang="en">GitHub repository for Elementum updates</summary></extension></addon>
+</requires>
+<extension point="xbmc.python.pluginsource" library="apollo.py"> 
+<provides>video</provides>
+</extension>                   
+<extension point="xbmc.addon.repository" name="RepositorioAPOLLO">                    
+<info compressed="true">https://deusapollo.com/APOLLO/repo/addons.xml</info>
+<checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
+<datadir zip="true">https://deusapollo.com/APOLLO/repo/master/</datadir>
+</extension>
+<extension point="xbmc.addon.metadata">
+<summary lang="en">filmes e séries torrentes, com alta qualidade 720p, 1080p h265 e 4K</summary>
+<description lang="en">O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSEADDON</description>
+<disclaimer lang="en">O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
+<platform>all</platform>
+</extension>
 </addon>
