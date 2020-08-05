@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="ElementumAPL.repository" name="Elementum universal" version="1.3" provider-name="Team APOLLO">
+<addon id="Elementum.repository" name="Elementum " version="1.0" provider-name="Team APOLLO">
 	<extension point="xbmc.addon.repository" name="ElementumAPL">
-		<info compressed="false">https://raw.githubusercontent.com/keltecmp-repo/repo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/keltecmp-repo/repo/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/keltecmp-repo/repo/master/Plugins</datadir>
+		<info compressed="false">https://deusapollo.com/APOLLO/repo/addons.xml</info>
+		<checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
+		<datadir zip="true">https://deusapollo.com/APOLLO/repo/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>ElementumAPL</summary>
-		<description>ElementumAPL - Proibido reproducao //Grupo Facebook KeltecMP IPTV https://www.facebook.com/groups/KelTec.Media.Play/</description>
+		<description>ElementumAPL filmes e sÃ©ries de alta qualidades 720p, 1080p, h265 e 4K site -> https://deus-apollo.ml/</description>
 		<platform>all</platform>
 	</extension>
 </addon>
@@ -107,35 +107,6 @@
         <summary lang="en_GB">A common caching API for Kodi add-ons.</summary>
         <license>GPL-3.0-only</license>
         <source>https://github.com/anxdpanic/script.common.plugin.cache</source>
-    </extension>
-</addon>
-
-<addon id="script.elementum.burst" name="Elementum [COLOR FFFF6B00]Burst[/COLOR]" version="0.0.49" provider-name="elgatito">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-        <import addon="plugin.video.elementum" optional="true"/>
-    </requires>
-    <extension point="xbmc.python.script" library="burst.py">
-        <provides>executable</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <summary lang = "en"> Provedor de torrents da Elementum</summary>
-        <summary lang = "en"> Provedores de serviÃ§os de torrent Elementum</summary>
-        <summary lang = "es"> Provedor de torrents Elementum </summary>
-        <description lang = "en"> Elementum Burst Ã© um provedor mÃºltiplo para a Elementum.</description>
-        <description lang = "en"> Elementum Burst Ã© um provedor mÃºltiplo para Elementum.</description>
-        <description lang = "es"> Elementum Burst Ã© um multi-provedor simples e eficiente para Elementum.</description>
-        <disclaimer lang = "en"> O autor nÃ£o hospeda nem distribui nenhum conteÃºdo exibido por este complemento. O autor nÃ£o tem nenhuma afiliaÃ§Ã£o com os provedores de conteÃºdo.</disclaimer>
-        <disclaimer lang = "en"> O autor deste plugin nÃ£o possui ou distribui nenhum conteÃºdo encontrado. O autor nÃ£o estÃ¡ vinculado a nenhuma fonte de conteÃºdo.</disclaimer>
-        <isenÃ§Ã£o de responsabilidade lang = "es"> O autor nÃ£o estÃ¡ localizado na distribuiÃ§Ã£o dos conteÃºdos mostrados por este complemento. O autor nÃ£o tem afiliaÃ§Ã£o com os provedores de conteÃºdo.</disclaimer>
-        <license>WTFPL, versÃ£o 2, dezembro de 2004. Ver LICENÃ‡A incluÃ­da.</license>
-        <Website>https://elementum.surge.sh </ website>
-        <Origem>https://github.com/elgatito/script.elementum.burst </ origem>
-        <FÃ³rum>TODO </ fÃ³rum>
-        <assets>
-            <icon>icon.png</icon>
-            <fanart>fanart.jpg</fanart>
-        </assets>
     </extension>
 </addon>
 
