@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="Repositorio.APOLLO" name="APOLLO" version="1.4.8" provider-name="TEAM APOLLO"> 
+<addon id="Repositorio.APOLLO" name="Repositorio APOLLO" version="1.4.8" provider-name="TEAM APOLLO"> 
 <requires>
 
 <import addon="xbmc.python" version="2.25.0"/>
