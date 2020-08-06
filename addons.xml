@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="Elementum.repository" name="Elementum " version="1.0" provider-name="Team APOLLO">
+<addon id="repository.elementum" name="Elementum Repository" version="0.1.52" provider-name="elgatito"><requires></requires><extension point="xbmc.addon.repository" name="Elementum Repository"><info compressed="false">http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml</info><checksum>http://127.0.0.1:65220/repository/elgatito/plugin.video.elementum/addons.xml.md5</checksum><datadir zip="true">http://127.0.0.1:65220/repository/elgatito/</datadir></extension><extension point="xbmc.addon.metadata"><platform>all</platform><summary lang="en">GitHub repository for Elementum updates</summary></extension></addon>
 	<extension point="xbmc.addon.repository" name="ElementumAPL">
 		<info compressed="false">https://deusapollo.com/APOLLO/repo/addons.xml</info>
 		<checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
@@ -89,42 +89,27 @@
     </extension>
 </addon>
 
-<addon id="Repositorio.APOLLO" name="Repositorio APOLLO" version="1.4.8" provider-name="TEAM APOLLO">
-<requires>
-
-<import addon="xbmc.python" version="2.25.0"/>
-	<import addon="script.module.t0mm0.common"/>
-    <import addon="script.module.beautifulsoup"/>
-    <import addon="script.module.simple.downloader"/>
-    <import addon="script.module.beautifulsoup4" />
-    <import addon="script.module.simple.downloader"/>
-    <import addon="script.module.requests"/>
-    <import addon="script.module.httplib2" />
-    <import addon="script.module.urlresolver" optional="true"/>
-    <import addon="script.module.simplejson" />
-	<import addon="script.common.plugin.cache"/>
-    <import addon="script.module.metahandler"/>
-    <import addon="script.module.livestreamer"/>
-    <import addon="script.module.pyamf"/>
-	<import addon="script.module.addon.common" />
-	<import addon="script.module.addon.signals"/>
-    <import addon = "script.module.unidecode"/>
-
-</requires>
-<extension point="xbmc.python.pluginsource" library="apollo.py">
-<provides>video</provides>
-</extension>
-<extension point="xbmc.addon.repository" name="Repositorio APOLLO">
-<info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
-<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
-<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/</datadir>
-</extension>
-<extension point="xbmc.addon.metadata">
-<summary lang="en">[COLOR orange][B]FEITO PARA FAMILIA![/COLOR][/B]</summary>
-<description lang="en">[COLOR deepskyblue][B]O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSE[/COLOR][/B] [COLOR orange][B] ADDON[/COLOR][/B]</description>
-<disclaimer lang="en">O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
-<platform>all</platform>
-</extension>
+<addon id="repository.apollo" name="Repo APOLLO" version="1.4.9" provider-name="TEAM APOLLO">
+    <extension point="xbmc.addon.repository" name="repository apollo">
+        <info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/</datadir>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+        <description>O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSE ADDON</description>
+		<disclaimer lang="en">O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
+		<platform>all</platform>
+		<website/>
+        <video_guide></video_guide>
+        <reuselanguageinvoker>false</reuselanguageinvoker>
+      <assets>
+      	<icon>icon.png</icon>
+    	<fanart>fanart.jpg</fanart>
+        <screenshot>resources/screenshots/01.jpg</screenshot>
+        <screenshot>resources/screenshots/02.jpg</screenshot>
+        <screenshot>resources/screenshots/03.jpg</screenshot>
+      </assets>
+	</extension>
 </addon>
 
 <addon id="script.common.plugin.cache" name="Common plugin cache" provider-name="anxdpanic, TheCollective" version="2.6.1">
