@@ -99,11 +99,11 @@
 	</extension>
 </addon>
 
-<addon id="repository.elementum" name="Repo Elementum " version="1.3" provider-name="TEAM APOLLO">
+<addon id="repository.elementum" name="Repo Elementum " version="1.4" provider-name="TEAM APOLLO">
     <extension point="xbmc.addon.repository" name="repository apollo">
-        <info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
-        <datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/</datadir>
+        <info compressed="true">https://deusapollo.com/APOLLO/repo/addons.xml</info>
+        <checksum>https://deusapollo.com/APOLLO/repo/addons.xml.md5</checksum>
+        <datadir zip="true">https://deusapollo.com/APOLLO/repo/repository.elementum/repository.elementum-1.4.zip</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
         <description>O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSE ADDON</description>
