@@ -99,17 +99,38 @@
 	</extension>
 </addon>
 
-<addon id="Elementum.repository" name="Repo Elementum" version="1.4" provider-name="Team APOLLO">
+<addon id="Elementum.repository" name="Repo Elementum" version="1.0.0" provider-name="Team APOLLO">
 	<extension point="xbmc.addon.repository" name="Repo Elementum">
-		<info compressed="false">https://deusapollo.com/APOLLO.com/repo/addons.xml</info>
-		<checksum>https://deusapollo.com/APOLLO.com/repo/addons.xml.md5</checksum>
-		<datadir zip="true">https://deusapollo.com/APOLLO.com/repo/master/</datadir>
+		<info compressed="false">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Elementum</summary>
 		<description>Elementum filmes torrents de alta qualidade de imagem e som, 720p, 1080p, h265 e 4k site -> https://deus-apollo.ml</description>
 		<platform>all</platform>
 	</extension>
+</addon>
+
+<addon id="script.common.plugin.cache" name="Common plugin cache" provider-name="anxdpanic, TheCollective" version="2.6.1">
+    <requires>
+        <import addon="xbmc.python" version="2.24.0"/>
+    </requires>
+    <extension point="xbmc.service" library="resources/lib/entry_point.py" start="startup"/>
+    <extension point="xbmc.python.module" library="resources/lib/storage_server/"/>
+    <extension point="xbmc.addon.metadata">
+        <news>
+[fix] shutdown taking longer than 5 seconds
+[fix] ignore encoding issues for socket data
+        </news>
+        <assets>
+            <icon>icon.png</icon>
+        </assets>
+        <platform>all</platform>
+        <summary lang="en_GB">A common caching API for Kodi add-ons.</summary>
+        <license>GPL-3.0-only</license>
+        <source>https://github.com/anxdpanic/script.common.plugin.cache</source>
+    </extension>
 </addon>
 
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -148,41 +169,6 @@
             <screenshot>resources/screenshots/webui.png</screenshot>
         </assets>
     </extension>
-</addon>
-
-<addon id="script.common.plugin.cache" name="Common plugin cache" provider-name="anxdpanic, TheCollective" version="2.6.1">
-    <requires>
-        <import addon="xbmc.python" version="2.24.0"/>
-    </requires>
-    <extension point="xbmc.service" library="resources/lib/entry_point.py" start="startup"/>
-    <extension point="xbmc.python.module" library="resources/lib/storage_server/"/>
-    <extension point="xbmc.addon.metadata">
-        <news>
-[fix] shutdown taking longer than 5 seconds
-[fix] ignore encoding issues for socket data
-        </news>
-        <assets>
-            <icon>icon.png</icon>
-        </assets>
-        <platform>all</platform>
-        <summary lang="en_GB">A common caching API for Kodi add-ons.</summary>
-        <license>GPL-3.0-only</license>
-        <source>https://github.com/anxdpanic/script.common.plugin.cache</source>
-    </extension>
-</addon>
-
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="Elementum.repository" name="Repo Elementum" version="1.4" provider-name="Team APOLLO">
-	<extension point="xbmc.addon.repository" name="Repo Elementum">
-		<info compressed="false">https://deusapollo.com/APOLLO.com/repo/addons.xml</info>
-		<checksum>https://deusapollo.com/APOLLO.com/repo/addons.xml.md5</checksum>
-		<datadir zip="true">https://deusapollo.com/APOLLO.com/repo/master/</datadir>
-	</extension>
-	<extension point="xbmc.addon.metadata">
-		<summary>Elementum</summary>
-		<description>Elementum filmes torrents de alta qualidade de imagem e som, 720p, 1080p, h265 e 4k site -> https://deus-apollo.ml</description>
-		<platform>all</platform>
-	</extension>
 </addon>
 
 <addon id="script.elementum.burst" name="Elementum [COLOR FFFF6B00]Burst[/COLOR]" version="0.0.49" provider-name="elgatito">
