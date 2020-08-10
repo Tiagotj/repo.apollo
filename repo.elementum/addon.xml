@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="Elementum.repository" name="Repo Elementum" version="1.2" provider-name="Team APOLLO">
+<addon id="Elementum.repository" name="Repo Elementum" version="1.3" provider-name="Team APOLLO">
 	<extension point="xbmc.addon.repository" name="Repo Elementum">
-		<info compressed="false">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
+		<info compressed="false">https://raw.githubusercontent.com/Tiagotj/repository.Elementum/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/Tiagotj/repository.Elementum/addons.xml.md5</checksum>
 		<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repository.Elementum/master/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
