@@ -76,48 +76,36 @@
     </extension>
 </addon>
 
-<addon 	id="repository.apollo" name="Repo APOLLO" version="1.2" provider-name="TEAM APOLLO"
-
-	<requires>
-            <import addon="xbmc.python" version="2.1.0"/>
-		    <import addon="script.module.addon.common" optional="true" />
-		    <import addon="script.module.t0mm0.common" optional="true" />
-		    <import addon="script.module.urlresolver" optional="true" />
-
-    </requires>
-
-	<extension point="xbmc.addon.repository" name="repository apollo">
-
-		<dir>
-			<info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/masteraddons.xml</info>
-			<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/masteraddons.xml.md5</checksum>
-			<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master</datadir>
-		</dir>
-
-		<dir>
-			<info compressed="false">https://raw.githubusercontent.com/Tiagotj/repository.Elementum/master/addons.xml</info>
-           	<checksum>https://raw.githubusercontent.com/Tiagotj/repository.Elementum/master/addon.xml.md5</checksum>
-           	<datadir zip="true">https://raw.githubusercontent.com/cy4root2/plugins/master</datadir>
-		</dir>
+<addon id="repository.apollo" name="Repo APOLLO" version="1.3" provider-name="TEAM APOLLO">
+    <extension point="xbmc.addon.repository" name="repository apollo">
+    <import addon="xbmc.addon" version="16.0.0" />
+        <import addon="xbmc.python" version="2.24.0" />
+        <import addon="repository.elementum" optional="true" />
+        <info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/</datadir>
+		<extension point="xbmc.service" library="service.py" start="startup" />
+    <extension point="xbmc.python.module" library="resources/site-packages" />
+    <extension point="xbmc.subtitle.module" library="navigation.py" />
+    <extension point="xbmc.addon.metadata">
 	</extension>
-
-
 	<extension point="xbmc.addon.metadata">
-
-	<news>
-	LOG DE CORREÃ‡Ã”ES
-    V 0.01 - criaÃ§Ã£o do repositÃ³rio...
-	</news>
-
-	<summary>Repositorio APOLLO trazendo o que a de melhor em conteÃºdos!</summary>
-
-	<description>
-                    [B][COLOR orange]RepositÃ³rio Vikings Drago, Somente Addons Gringos Legendados!!![/COLOR][/B]
-
-	</description>
-
-<disclaimer>O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
+        <description>O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSE ADDON</description>
+		<disclaimer lang="en">O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
 		<platform>all</platform>
+		<website>http://elementum.surge.sh/</website>
+        <source>https://github.com/elgatito/plugin.video.elementum</source>
+        <forum></forum>
+        <license>Non commercial. See https://github.com/elgatito/plugin.video.elementum/blob/master/LICENSE</license>
+        <video_guide></video_guide>
+        <reuselanguageinvoker>false</reuselanguageinvoker>
+      <assets>
+      	<icon>icon.png</icon>
+    	<fanart>fanart.jpg</fanart>
+        <screenshot>resources/screenshots/01.jpg</screenshot>
+        <screenshot>resources/screenshots/02.jpg</screenshot>
+        <screenshot>resources/screenshots/03.jpg</screenshot>
+      </assets>
 	</extension>
 </addon>
 
