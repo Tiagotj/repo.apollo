@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="repository.apollo" name="Repo APOLLO" version="1.1" provider-name="TEAM APOLLO"> 
+<addon id="repository.apollo" name="Repo APOLLO" version="1.2" provider-name="TEAM APOLLO"> 
     <extension point="xbmc.addon.repository" name="repository apollo">            
         <info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
         <checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
@@ -8,7 +8,7 @@
         <dir>
 			<info compressed="false">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
 			<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
-			<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repository.Elementum/master/</datadir>
+			<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repository.Elementum/master/plugin.video.elementum/</datadir>
 		</dir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
