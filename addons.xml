@@ -15,7 +15,7 @@
   </extension>
 </addon>
 
-<addon id="plugin.video.apollo" name="APOLLO" version="1.5.6" provider-name="TEAM APOLLO">
+<addon id="plugin.video.apollo" name="APOLLO" version="1.5.7" provider-name="TEAM APOLLO">
 <requires>
     <import addon="xbmc.python" version="2.1.0"/>
     <import addon="script.module.t0mm0.common"/>
@@ -42,6 +42,37 @@
 <description lang="en">O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSE ADDON</description>
 <disclaimer lang="en">O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
 <platform>all</platform>
+</extension>
+</addon>
+
+<addon id="plugin.video.apollo.matrix" name="APOLLO" version="1.0.0+matrix.1" provider-name="TEAM APOLLO">
+<requires>
+    <import addon="xbmc.python" version="3.0.0"/>
+    <import addon="script.module.requests"/>
+    <import addon="script.module.simplejson"/>
+	<import addon="script.module.kodi-six" />
+</requires>
+<extension point="xbmc.python.pluginsource" library="apollo.py">
+	<provides>video</provides>
+</extension>
+<extension point="xbmc.addon.repository" name="Repositorio APOLLO">
+<info compressed="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml</info>
+<checksum>https://raw.githubusercontent.com/Tiagotj/repo.apollo/master/addons.xml.md5</checksum>
+<datadir zip="true">https://raw.githubusercontent.com/Tiagotj/repo.apollo/master</datadir>
+</extension>
+<extension point="xbmc.addon.metadata">
+<summary lang="en">[COLOR orange][B]FEITO PARA FAMILIA![/COLOR][/B]</summary>
+<description lang="en">O AUTOR NAO E RESPONSAVEL POR QUALQUER CONTEUDOS ENCONTRADO NESSE ADDON</description>
+<disclaimer lang="en">O AUTOR NAO E DE FORMA ALGUMA FILIADO O KODI OU TEAM KODI, ESSES CONTEUDOS OU RECURSOS SEM FIM LUCRATIVOS ORGANIZADO EXCLUSIVAMENTE PARA FINS EDUCA CIONAIS E PROTEGIDO PELA DOUTRINA DE USO DA LEI DE DIREITOS AUTORAIS ESPECIFICAMENTE A SECAO 107 QUE PROMOVE A LIBERDADE DE EXPRESSAO PERMITIDO O USO DE OBRAS PROTEGIDAS POR DIREITOS AUTORAIS.</disclaimer>
+<platform>all</platform>
+	<assets>
+       <icon>icon.png</icon>
+       <fanart>fanart.jpg</fanart>
+    </assets>
+	<news>
+v1.0.0.matrix.1
+- Addon Apollo
+	</news>
 </extension>
 </addon>
 
@@ -524,25 +555,6 @@ AMF3, the default serialization for ActionScript 3.0, provides various advantage
     <license>MIT License, Academic Free License v. 2.1</license>
     <website>https://pypi.org/project/simplejson/</website>
     <source>https://github.com/simplejson/simplejson</source>
-  </extension>
-</addon>
-
-<addon id="script.module.singledispatch"
-       name="singledispatch"
-       version="3.4.0.3"
-       provider-name="Łukasz Langa">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0"/>
-  </requires>
-  <extension point="xbmc.python.module"
-             library="lib"/>
-  <extension point="xbmc.addon.metadata">
-    <summary>Single-dispatch generic functions</summary>
-    <description>This library brings functools.singledispatch from Python 3.4 to Python 2.6-3.3.</description>
-    <platform>all</platform>
-    <license>MIT</license>
-    <source>https://pypi.python.org/pypi/singledispatch#downloads</source>
-    <website>http://docs.python.org/3/library/functools.html#functools.singledispatch</website>
   </extension>
 </addon>
 
