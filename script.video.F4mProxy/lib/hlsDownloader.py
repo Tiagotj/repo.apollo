@@ -14,7 +14,7 @@ Last updated: July 22, 2012
 MODIFIED BY shani to make it work with F4mProxy
 """
 
-import urlparse,urlparse, urllib2, subprocess, os,traceback,cookielib,re,Queue,threading
+import urllib.parse,urllib.parse, urllib.request, urllib.error, urllib.parse, subprocess, os,traceback,http.cookiejar,re,queue,threading
 import xml.etree.ElementTree as etree
 import base64
 from struct import unpack, pack
@@ -26,9 +26,9 @@ import time
 import itertools
 import xbmcaddon
 import xbmc
-import urllib2,urllib
+import urllib.request, urllib.error, urllib.parse,urllib.request,urllib.parse,urllib.error
 import traceback
-import urlparse
+import urllib.parse
 import posixpath
 import re
 import hmac
@@ -36,17 +36,11 @@ import hashlib
 import binascii 
 import zlib
 from hashlib import sha256
-import cookielib
+import http.cookiejar
 import array, random, string
 import requests
 #from Crypto.Cipher import AES
-'''
-from crypto.cipher.aes      import AES
-from crypto.cipher.cbc      import CBC
-from crypto.cipher.base     import padWithPadLen
-from crypto.cipher.rijndael import Rijndael
-from crypto.cipher.aes_cbc import AES_CBC
-'''
+
 gproxy=None
 gauth=None
 callbackDRM=None
@@ -54,12 +48,12 @@ try:
     from Crypto.Cipher import AES
     USEDec=1 ## 1==crypto 2==local, local pycrypto
 except:
-    print 'pycrypt not available using slow decryption'
+    print('pycrypt not available using slow decryption')
     USEDec=3 ## 1==crypto 2==local, local pycrypto
 
 if USEDec==1:
     #from Crypto.Cipher import AES
-    print 'using pycrypto'
+    print('using pycrypto')
 elif USEDec==2:
     from decrypter import AESDecrypter
     AES=AESDecrypter()
@@ -75,7 +69,7 @@ VALUE_SAFE = ''.join(chr(c) for c in range(33, 127)
     
 SUPPORTED_VERSION=3
 
-cookieJar=cookielib.LWPCookieJar()
+cookieJar=http.cookiejar.LWPCookieJar()
 clientHeader=None
     
 class HLSDownloader():
@@ -113,9 +107,9 @@ class HLSDownloader():
                 sp = url.split('|')
                 url = sp[0]
                 clientHeader = sp[1]
-                print clientHeader
-                clientHeader= urlparse.parse_qsl(clientHeader)
-                print 'header recieved now url and headers are',url, clientHeader 
+                print(clientHeader)
+                clientHeader= urllib.parse.parse_qsl(clientHeader)
+                print(('header recieved now url and headers are',url, clientHeader)) 
             self.status='init done'
             self.url=url
             return True# disabled for time being#downloadInternal(self.url,None,self.maxbitrate,self.g_stopEvent, testing=True)
@@ -164,7 +158,7 @@ def getUrl(url,timeout=15,returnres=False,stream=False):
             return req.text
 
     except:
-        print 'Error in getUrl'
+        print('Error in getUrl')
         traceback.print_exc()
         return None
         
@@ -177,15 +171,15 @@ def getUrlold(url,timeout=20, returnres=False):
         #print 'url',url
         
         #openner = urllib2.build_opener(urllib2.HTTPHandler, urllib2.HTTPSHandler)
-        cookie_handler = urllib2.HTTPCookieProcessor(cookieJar)
-        openner = urllib2.build_opener(cookie_handler, urllib2.HTTPBasicAuthHandler(), urllib2.HTTPHandler())
+        cookie_handler = urllib.request.HTTPCookieProcessor(cookieJar)
+        openner = urllib.request.build_opener(cookie_handler, urllib.request.HTTPBasicAuthHandler(), urllib.request.HTTPHandler())
         
         #print cookieJar
 
         if post:
-            req = urllib2.Request(url, post)
+            req = urllib.request.Request(url, post)
         else:
-            req = urllib2.Request(url)
+            req = urllib.request.Request(url)
         
         ua_header=False
         if clientHeader:
@@ -210,7 +204,7 @@ def getUrlold(url,timeout=20, returnres=False):
         return data
 
     except:
-        print 'Error in getUrl'
+        print('Error in getUrl')
         traceback.print_exc()
         return None
 
@@ -353,7 +347,7 @@ def handle_basic_m3u(url):
     global key
     global USEDec
     global gauth
-    import urlparse
+    import urllib.parse
     global callbackDRM
     seq = 1
     enc = None
@@ -397,13 +391,13 @@ def handle_basic_m3u(url):
                             
                             if codeurl.startswith("LSHex$"):
                                 codeurl=codeurl.split('LSHex$')[1].decode("hex")
-                                print 'code is ',codeurl.encode("hex")
+                                print(('code is ',codeurl.encode("hex")))
                             if codeurl.startswith("LSDRMCallBack$"):
                                 codeurlpath=codeurl.split('LSDRMCallBack$')[1]
                                 codeurl='LSDRMCallBack$'+currentaesUrl
                                 
                                 if codeurlpath and len(codeurlpath)>0 and callbackDRM==None:
-                                    print 'callback',codeurlpath
+                                    print(('callback',codeurlpath))
                                     import importlib, os
                                     foldername=os.path.sep.join(codeurlpath.split(os.path.sep)[:-1])
                                     urlnew=''
@@ -412,7 +406,7 @@ def handle_basic_m3u(url):
                                     try:
                                         callbackfilename= codeurlpath.split(os.path.sep)[-1].split('.')[0]
                                         callbackDRM = importlib.import_module(callbackfilename)
-                                        print 'LSDRMCallBack imported'
+                                        print('LSDRMCallBack imported')
                                     except:
                                         traceback.print_exc()
                             
@@ -421,8 +415,8 @@ def handle_basic_m3u(url):
                         
                         #key = download_file(codeurl)
                         elif not codeurl.startswith('http'):
-                            import urlparse
-                            codeurl=urlparse.urljoin(url, codeurl)
+                            import urllib.parse
+                            codeurl=urllib.parse.urljoin(url, codeurl)
                             
                         #assert len(key) == 16, 'EXT-X-KEY: downloaded key file has bad length'
                         if 'IV' in attribs:
@@ -463,16 +457,16 @@ def handle_basic_m3u(url):
                 raise ValueError("don't know how to handle EXT-X-STREAM-INF in basic playlist")
             elif tag == '#EXT-X-DISCONTINUITY':
                 assert not attribs
-                print "[warn] discontinuity in stream"
+                print("[warn] discontinuity in stream")
             elif tag == '#EXT-X-VERSION':
                 assert len(attribs) == 1
                 if int(attribs[0]) > SUPPORTED_VERSION:
-                    print "[warn] file version %s exceeds supported version %d; some things might be broken"%(attribs[0], SUPPORTED_VERSION)
+                    print(("[warn] file version %s exceeds supported version %d; some things might be broken"%(attribs[0], SUPPORTED_VERSION)))
             #else:
             #    raise ValueError("tag %s not known"%tag)
         else:
             if not line.startswith('http'):
-                line=urlparse.urljoin(redirurl, line)
+                line=urllib.parse.urljoin(redirurl, line)
             yield (seq, enc, duration, targetduration, line ,vod)
             seq += 1
 
@@ -501,16 +495,16 @@ def downloadInternal(url,file,maxbitrate=0,stopEvent=None, testing=False):
      #url check if requires redirect
     redirurl=url
     try:
-        print 'going gor  ',url
+        print(('going gor  ',url))
         res=getUrl(url,returnres=True )
-        print 'here ', res
+        print(('here ', res))
         if res.history: 
-            print 'history'
+            print('history')
             redirurl=res.url
         res.close()
         if testing: return True
     except: traceback.print_exc()
-    print 'redirurl',redirurl
+    print(('redirurl',redirurl))
     
     
     for line in gen_m3u(url):
@@ -521,41 +515,41 @@ def downloadInternal(url,file,maxbitrate=0,stopEvent=None, testing=False):
         elif variant:
             variants.append((line, variant))
             variant = None
-    print 'variants',variants
+    print(('variants',variants))
     if len(variants)==0: url=redirurl
     if len(variants) == 1:
-        url = urlparse.urljoin(redirurl, variants[0][0])
+        url = urllib.parse.urljoin(redirurl, variants[0][0])
     elif len(variants) >= 2:
-        print "More than one variant of the stream was provided."
+        print("More than one variant of the stream was provided.")
 
         choice=-1
         lastbitrate=0
-        print 'maxbitrate',maxbitrate
+        print(('maxbitrate',maxbitrate))
         for i, (vurl, vattrs) in enumerate(variants):
-            print i, vurl,
+            print((i, vurl))
             for attr in vattrs:
                 key, value = attr.split('=')
                 key = key.strip()
                 value = value.strip().strip('"')
                 if key == 'BANDWIDTH':
-                    print 'bitrate %.2f kbps'%(int(value)/1024.0)
+                    print(('bitrate %.2f kbps'%(int(value)/1024.0)))
                     if int(value)<=int(maxbitrate) and int(value)>lastbitrate:
                         choice=i
                         lastbitrate=int(value)
                 elif key == 'PROGRAM-ID':
-                    print 'program %s'%value,
+                    print(('program %s'%value))
                 elif key == 'CODECS':
-                    print 'codec %s'%value,
+                    print(('codec %s'%value))
                 elif key == 'RESOLUTION':
-                    print 'resolution %s'%value,
+                    print(('resolution %s'%value))
                 else:
-                    print "unknown STREAM-INF attribute %s"%key
+                    print(("unknown STREAM-INF attribute %s"%key))
                     #raise ValueError("unknown STREAM-INF attribute %s"%key)
-            print
+            print()
         if choice==-1: choice=0
         #choice = int(raw_input("Selection? "))
-        print 'choose %d'%choice
-        url = urlparse.urljoin(redirurl, variants[choice][0])
+        print(('choose %d'%choice))
+        url = urllib.parse.urljoin(redirurl, variants[choice][0])
 
     #queue = Queue.Queue(1024) # 1024 blocks of 4K each ~ 4MB buffer
     control = ['go']
@@ -609,7 +603,7 @@ def downloadInternal(url,file,maxbitrate=0,stopEvent=None, testing=False):
                     if encobj:
                         
                         codeurl,iv=encobj
-                        if codeurl<>lastKeyUrl:
+                        if codeurl!=lastKeyUrl:
                             if codeurl.startswith('http'):
                                 key = download_file(codeurl)
                             elif codeurl.startswith('LSDRMCallBack$'):
@@ -630,7 +624,7 @@ def downloadInternal(url,file,maxbitrate=0,stopEvent=None, testing=False):
                         
                     if glsession: media_url=media_url.replace(glsession,glsession[:-10]+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10)))
                     try:
-                        for chunk in download_chunks(urlparse.urljoin(url, media_url),enc=encobj):
+                        for chunk in download_chunks(urllib.parse.urljoin(url, media_url),enc=encobj):
                             if stopEvent and stopEvent.isSet():
                                 return
                             #print '1. chunk available %d'%len(chunk)

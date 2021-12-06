@@ -9,9 +9,9 @@ import time
 import itertools
 import xbmcaddon
 import xbmc
-import urllib2,urllib
+import urllib.request, urllib.error, urllib.parse,urllib.request,urllib.parse,urllib.error
 import traceback
-import urlparse
+import urllib.parse
 import posixpath
 import re
 import socket, struct
@@ -21,7 +21,7 @@ from flvlib import helpers
 from flvlib.astypes import MalformedFLV
 
 import zlib
-from StringIO import StringIO
+from io import StringIO
 import hmac
 import hashlib
 import base64
@@ -43,12 +43,12 @@ def getLastPTS(data,rpid,type="video"):
     packsize=188
     spoint=0
     while not found:
-        ff=data.rfind('\x47',0,currentpost-1)
+        ff=data.rfind('\x47'.encode(),0,currentpost-1)
         ##print 'ff',ff,data[ff-188]
         if ff==-1:
             #print 'No sync data'
             found=True
-        elif data[ff-packsize]=='\x47' and data[ff-packsize-packsize]=='\x47':
+        elif data[ff-packsize]=='\x47'.encode() and data[ff-packsize-packsize]=='\x47'.encode():
             spoint=ff
             found=True
         else:
@@ -208,11 +208,11 @@ def getFirstPTSFrom(data,rpid, initpts,type="video" ):
     spoint=0
     ##print 'inwhile'
     while not found:
-        ff=data.find('\x47',currentpost)
+        ff=data.find('\x47'.encode(),currentpost)
         if ff==-1:
             #print 'No sync data'
             found=True
-        elif data[ff+packsize]=='\x47' and data[ff+packsize+packsize]=='\x47':
+        elif data[ff+packsize]=='\x47'.encode() and data[ff+packsize+packsize]=='\x47'.encode():
             spoint=ff
             found=True
         else:
@@ -376,12 +376,14 @@ class TSDownloader():
     def openUrl(self,url, ischunkDownloading=False):
         try:
             post=None
-            openner = urllib2.build_opener(urllib2.HTTPHandler, urllib2.HTTPSHandler)
+            openner = urllib.request.build_opener(urllib.request.HTTPHandler, urllib.request.HTTPSHandler)
 
             if post:
-                req = urllib2.Request(url, post)
+                req = urllib.request.Request(url, post)
+                # req=urllib.request.urlopen(url)
             else:
-                req = urllib2.Request(url)
+                # req=urllib.request.urlopen(url)                
+                req = urllib.request.Request(url)
             
             ua_header=False
             if self.clientHeader:
@@ -393,12 +395,15 @@ class TSDownloader():
             if not ua_header:
                 req.add_header('User-Agent','VLC/2.2.2 LibVLC/2.2.17')
                 req.add_header('Icy-MetaData','1')
-            #response = urllib2.urlopen(req)
             if self.proxy:
                 req.set_proxy(self.proxy, 'http')
+            # response = urllib.request.urlopen(req)
             response = openner.open(req)
+            # response=req.read()
 
             return response
+            # return req
+
         except:
             #print 'Error in getUrl'
             traceback.print_exc()
@@ -407,12 +412,12 @@ class TSDownloader():
     def getUrl(self,url, ischunkDownloading=False):
         try:
             post=None
-            openner = urllib2.build_opener(urllib2.HTTPHandler, urllib2.HTTPSHandler)
+            openner = urllib.request.build_opener(urllib.request.HTTPHandler, urllib.request.HTTPSHandler)
 
             if post:
-                req = urllib2.Request(url, post)
+                req = urllib.request.Request(url, post)
             else:
-                req = urllib2.Request(url)
+                req = urllib.request.Request(url)
             
             ua_header=False
             if self.clientHeader:
@@ -453,7 +458,7 @@ class TSDownloader():
                 sp = url.split('|')
                 url = sp[0]
                 self.clientHeader = sp[1]
-                self.clientHeader= urlparse.parse_qsl(self.clientHeader)
+                self.clientHeader= urllib.parse.parse_qsl(self.clientHeader)
                 
             #print 'header recieved now url and headers are',url, self.clientHeader 
             self.status='init done'
@@ -514,29 +519,29 @@ class TSDownloader():
                 #print 'starting.............. new url',wrotesomething
                 try:
                     if self.g_stopEvent and self.g_stopEvent.isSet():
-                        print 'event set'
+                        print('event set')
                         return False
                     while (buf != None and len(buf) > 0 and lastdataread>0):
                         
                         if self.g_stopEvent and self.g_stopEvent.isSet():
-                            print 'event set'
+                            print('event set')
                             return False
                         try:
                             
-                            buf = response.read(limit)##500 * 1024)
+                            buf = response.read(limit) # 500 * 1024)
                             lastdataread=len(buf)
                             byteread+=lastdataread
                             #print 'got data',len(buf)
-                            if lastdataread==0: print 1/0
+                            if lastdataread==0: print((1/0))
                             if testurl: 
-                                print 'test complete true'
+                                print('test complete true')
                                 response.close()
                                 return True
                         except:
                             traceback.print_exc(file=sys.stdout)
-                            print 'testurl',testurl,lost
+                            print(('testurl',testurl,lost))
                             if testurl and lost>10: 
-                                print 'test complete false'
+                                print('test complete false')
                                 response.close()
                                 return False
                             buf=None
@@ -567,7 +572,7 @@ class TSDownloader():
                                             firstpts,pos= getFirstPTSFrom(buf,fixpid,lastpts,defualtype)#
                                         except:                                            
                                             traceback.print_exc(file=sys.stdout)
-                                            print 'getFirstPTSFrom error, using, last -1',# buf.encode("hex"), lastpts,
+                                            print('getFirstPTSFrom error, using, last -1')# buf.encode("hex"), lastpts,
                                             firstpts,pos= getFirstPTSFrom(buf,fixpid,lastpts-1,defualtype)#
                                             
                                         
@@ -583,7 +588,7 @@ class TSDownloader():
                                         #    print 'xxxxxxxxxxxxxxxxxx',buf.encode("hex") 
                                         #print 'last pst new',lastforcurrent
                                         if firstpts>lastforcurrent:
-                                            print 'bad pts? ignore'#, buf.encode("hex") 
+                                            print('bad pts? ignore')#, buf.encode("hex") 
                                         #print 'auto pos',pos
                                         if pos==None: pos=0
                                         if pos>5000:
@@ -614,7 +619,7 @@ class TSDownloader():
                                     else:
                                         #if lastforcurrent==None:
                                         #    print 'NONE ISSUE', buf.encode("hex")
-                                        print 'problembytes','diff',lastpts,lastforcurrent, lastpts, lastforcurrent
+                                        print(('problembytes','diff',lastpts,lastforcurrent, lastpts, lastforcurrent))
                                         #buf.encode("hex")
                                         ignoredblock=writebuf
                                         ignorefind+=1#same or old data?
@@ -640,10 +645,10 @@ class TSDownloader():
                         else: 
                             #print 'found first packet', len(writebuf)
                             First=False
-                            if not ('\x47' in writebuf[0:20]): 
+                            if not ('\x47'.encode() in writebuf[0:20]): 
                                 #fileout.write(buf)
                                 #fileout.flush()
-                                print 'file not TS', repr(writebuf[:100])
+                                print(('file not TS', repr(writebuf[:100])))
                                 fileout.close()
                                 return
                             starttime=time.time()
@@ -662,7 +667,7 @@ class TSDownloader():
                             fileout.flush()
                             lastpts1=getLastPTS(lastbuf,fixpid,defualtype)
                             if lastpts and lastpts1 and lastpts1-lastpts<0:
-                                print 'too small?',lastpts , lastpts1,lastpts1-lastpts
+                                print(('too small?',lastpts , lastpts1,lastpts1-lastpts))
                                 #print lastbuf.encode("hex")
                             if not lastpts1==None: lastpts=lastpts1
                             
@@ -681,14 +686,14 @@ class TSDownloader():
 
                     try:
                     
-                        print 'finished',byteread
+                        print(('finished',byteread))
                         if byteread>0:
-                            print 'Percent Used'+str(((bytesent*100)/byteread))
+                            print(('Percent Used'+str(((bytesent*100)/byteread))))
                         response.close()
                         
-                        print 'response closed'
+                        print('response closed')
                     except:
-                        print 'close error'
+                        print('close error')
                         traceback.print_exc(file=sys.stdout)
                     if wrotesomething==False  :
                         if lost<10: continue   
@@ -711,16 +716,16 @@ class TSDownloader():
                         #    xbmc.sleep(sleeptime*1000)#len(buf)/1024/1024*5000)
                         
                         
-                except socket.error, e:
-                    print time.asctime(), "Client Closed the connection."
+                except socket.error as e:
+                    print((time.asctime(), "Client Closed the connection."))
                     try:
                         response.close()
                         fileout.close()
                         
-                    except Exception, e:
+                    except Exception as e:
                         return
                     return
-                except Exception, e:
+                except Exception as e:
                     traceback.print_exc(file=sys.stdout)
                     response.close()
                     fileout.close()

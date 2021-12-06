@@ -6,7 +6,7 @@
 from .cryptomath import *
 
 from .aes import *
-from .rijndael import rijndael
+from .rijndael import Rijndael
 
 def new(key, mode, IV):
     return Python_AES(key, mode, IV)
@@ -14,7 +14,7 @@ def new(key, mode, IV):
 class Python_AES(AES):
     def __init__(self, key, mode, IV):
         AES.__init__(self, key, mode, IV, "python")
-        self.rijndael = rijndael(key, 16)
+        self.rijndael = Rijndael(key, 16)
         self.IV = IV
 
     def encrypt(self, plaintext):
@@ -32,7 +32,7 @@ class Python_AES(AES):
                 blockBytes[y] ^= chainBytes[y]
 
             #Encrypt it
-            encryptedBytes = self.rijndael.encrypt(blockBytes)
+            encryptedBytes = self.Rijndael.encrypt(blockBytes)
 
             #Overwrite the input with the output
             for y in range(16):
@@ -55,7 +55,7 @@ class Python_AES(AES):
 
             #Decrypt it
             blockBytes = ciphertextBytes[x*16 : (x*16)+16]
-            decryptedBytes = self.rijndael.decrypt(blockBytes)
+            decryptedBytes = self.Rijndael.decrypt(blockBytes)
 
             #XOR with the chaining block and overwrite the input with output
             for y in range(16):

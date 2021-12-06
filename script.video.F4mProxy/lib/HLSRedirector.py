@@ -14,7 +14,7 @@ Last updated: July 22, 2012
 MODIFIED BY shani to make it work with F4mProxy
 """
 
-import urlparse, urllib2, subprocess, os,traceback,cookielib,re,Queue,threading
+import urllib.parse, urllib.request, urllib.error, urllib.parse, subprocess, os,traceback,http.cookiejar,re,queue,threading
 import xml.etree.ElementTree as etree
 import base64
 from struct import unpack, pack
@@ -26,9 +26,9 @@ import time
 import itertools
 import xbmcaddon
 import xbmc
-import urllib2,urllib
+import urllib.request, urllib.error, urllib.parse,urllib.request,urllib.parse,urllib.error
 import traceback
-import urlparse
+import urllib.parse
 import posixpath
 import re
 import hmac
@@ -36,17 +36,11 @@ import hashlib
 import binascii 
 import zlib
 from hashlib import sha256
-import cookielib
+import http.cookiejar
 import array, random, string
 import requests
 #from Crypto.Cipher import AES
-'''
-from crypto.cipher.aes      import AES
-from crypto.cipher.cbc      import CBC
-from crypto.cipher.base     import padWithPadLen
-from crypto.cipher.rijndael import Rijndael
-from crypto.cipher.aes_cbc import AES_CBC
-'''
+
 gproxy=None
 gauth=None
 nsplayer=False
@@ -55,12 +49,12 @@ try:
     from Crypto.Cipher import AES
     USEDec=1 ## 1==crypto 2==local, local pycrypto
 except:
-    print 'pycrypt not available using slow decryption'
+    print('pycrypt not available using slow decryption')
     USEDec=3 ## 1==crypto 2==local, local pycrypto
 
 if USEDec==1:
     #from Crypto.Cipher import AES
-    print 'using pycrypto'
+    print('using pycrypto')
 elif USEDec==2:
     from decrypter import AESDecrypter
     AES=AESDecrypter()
@@ -76,7 +70,7 @@ VALUE_SAFE = ''.join(chr(c) for c in range(33, 127)
     
 SUPPORTED_VERSION=3
 
-cookieJar=cookielib.LWPCookieJar()
+cookieJar=http.cookiejar.LWPCookieJar()
 clientHeader=None
     
 class HLSRedirector():
@@ -122,9 +116,9 @@ class HLSRedirector():
                 sp = url.split('|')
                 url = sp[0]
                 clientHeader = sp[1]
-                print clientHeader
-                clientHeader= urlparse.parse_qsl(clientHeader)
-                print 'header recieved now url and headers are',url, clientHeader 
+                print(clientHeader)
+                clientHeader= urllib.parse.parse_qsl(clientHeader)
+                print(('header recieved now url and headers are',url, clientHeader)) 
             self.status='init done'
             self.url=url
             return True# disabled downloadInternal(self.url,None,self.maxbitrate,self.g_stopEvent , self.callbackpath,  self.callbackparam, testing=True)
@@ -141,7 +135,7 @@ class HLSRedirector():
             downloadInternal(self.url,dest_stream,self.maxbitrate,self.g_stopEvent , self.callbackpath,  self.callbackparam)
         except: 
             traceback.print_exc()
-        print 'setting finished'
+        print('setting finished')
         self.status='finished'
 
         
@@ -152,7 +146,7 @@ def getUrl(url,timeout=15,returnres=False,stream =False):
 
     try:
         post=None
-        print 'url',url
+        print(('url',url))
         session = requests.Session()
         session.cookies = cookieJar
 
@@ -162,9 +156,9 @@ def getUrl(url,timeout=15,returnres=False,stream =False):
             for n,v in clientHeader:
                 headers[n]=v
         if nsplayer: 
-            print 'nsplayer is true'            
+            print('nsplayer is true')            
             headers['User-Agent']=binascii.b2a_hex(os.urandom(20))[:32]
-        print 'nsplayer', nsplayer,headers
+        print(('nsplayer', nsplayer,headers))
         proxies={}
         
         if gproxy:
@@ -183,7 +177,7 @@ def getUrl(url,timeout=15,returnres=False,stream =False):
             return req.text
 
     except:
-        print 'Error in getUrl'
+        print('Error in getUrl')
         traceback.print_exc()
         raise 
         return None
@@ -229,7 +223,7 @@ def gen_m3u(url, skip_comments=True):
     conn = getUrl(url,returnres=True )#urllib2.urlopen(url)
     redirurl=None
     if conn.history: 
-        print 'history'
+        print('history')
         redirurl=conn.url
     enc = validate_m3u(conn)
     #print conn
@@ -285,7 +279,7 @@ def handle_basic_m3u(url):
     global key
     global USEDec
     global gauth
-    import urlparse,urllib
+    import urllib.parse,urllib.request,urllib.parse,urllib.error
     global callbackDRM
     
     seq = 1
@@ -301,8 +295,8 @@ def handle_basic_m3u(url):
     for line in gen_m3u(url):
         if not line.startswith('#EXT'):
             if 1==1:#not line.startswith('http'):
-                line=urlparse.urljoin(url, line)
-                newurl='sendvideopart?'+urllib.urlencode({'url': line})
+                line=urllib.parse.urljoin(url, line)
+                newurl='sendvideopart?'+urllib.parse.urlencode({'url': line})
                 line='http://'+HOST_NAME+(':%s/'%str(PORT_NUMBER)) + newurl ##shoud read from config
         yield line+'\n'
 def player_pipe(queue, control,file):
@@ -335,18 +329,18 @@ def downloadInternal(url,file,maxbitrate=0,stopEvent=None , callbackpath="",call
     redirurl=url
     utltext=''
     try:
-        print 'going for url  ',url
+        print(('going for url  ',url))
         res=getUrl(url,returnres=True )
-        print 'here ', res
+        print(('here ', res))
         if res.history: 
-            print 'history is',res.history
+            print(('history is',res.history))
             redirurl=res.url
             url=redirurl
         utltext=res.text
         res.close()
         if testing: return True
     except: traceback.print_exc()
-    print 'redirurl',redirurl
+    print(('redirurl',redirurl))
     if 'EXT-X-STREAM-INF' in utltext:
         try:
             for line in gen_m3u(redirurl):
@@ -357,41 +351,41 @@ def downloadInternal(url,file,maxbitrate=0,stopEvent=None , callbackpath="",call
                 elif variant:
                     variants.append((line, variant))
                     variant = None
-            print 'variants',variants
+            print(('variants',variants))
             if len(variants)==0: url=redirurl
             if len(variants) == 1:
-                url = urlparse.urljoin(redirurl, variants[0][0])
+                url = urllib.parse.urljoin(redirurl, variants[0][0])
             elif len(variants) >= 2:
-                print "More than one variant of the stream was provided."
+                print("More than one variant of the stream was provided.")
 
                 choice=-1
                 lastbitrate=0
-                print 'maxbitrate',maxbitrate
+                print(('maxbitrate',maxbitrate))
                 for i, (vurl, vattrs) in enumerate(variants):
-                    print i, vurl,
+                    print((i, vurl))
                     for attr in vattrs:
                         key, value = attr.split('=')
                         key = key.strip()
                         value = value.strip().strip('"')
                         if key == 'BANDWIDTH':
-                            print 'bitrate %.2f kbps'%(int(value)/1024.0)
+                            print(('bitrate %.2f kbps'%(int(value)/1024.0)))
                             if int(value)<=int(maxbitrate) and int(value)>lastbitrate:
                                 choice=i
                                 lastbitrate=int(value)
                         elif key == 'PROGRAM-ID':
-                            print 'program %s'%value,
+                            print(('program %s'%value))
                         elif key == 'CODECS':
-                            print 'codec %s'%value,
+                            print(('codec %s'%value))
                         elif key == 'RESOLUTION':
-                            print 'resolution %s'%value,
+                            print(('resolution %s'%value))
                         else:
-                            print "unknown STREAM-INF attribute %s"%key
+                            print(("unknown STREAM-INF attribute %s"%key))
                             #raise ValueError("unknown STREAM-INF attribute %s"%key)
-                    print
+                    print()
                 if choice==-1: choice=0
                 #choice = int(raw_input("Selection? "))
-                print 'choose %d'%choice
-                url = urlparse.urljoin(redirurl, variants[choice][0])
+                print(('choose %d'%choice))
+                url = urllib.parse.urljoin(redirurl, variants[choice][0])
         except: 
             
             raise

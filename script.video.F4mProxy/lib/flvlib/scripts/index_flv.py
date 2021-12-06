@@ -6,23 +6,22 @@ import tempfile
 
 from optparse import OptionParser
 
-from flvlib import __versionstr__
-from flvlib.constants import TAG_TYPE_AUDIO, TAG_TYPE_VIDEO, TAG_TYPE_SCRIPT
-from flvlib.constants import FRAME_TYPE_KEYFRAME
-from flvlib.astypes import MalformedFLV, FLVObject
-from flvlib.tags import FLV, EndOfFile, AudioTag, VideoTag, ScriptTag
-from flvlib.tags import create_script_tag, create_flv_header
-from flvlib.helpers import force_remove
+from flvlib3 import __version__
+from flvlib3.astypes import MalformedFLV, FLVObject
+from flvlib3.constants import (TAG_TYPE_AUDIO, TAG_TYPE_VIDEO, TAG_TYPE_SCRIPT,
+                               FRAME_TYPE_KEYFRAME)
+from flvlib3.tags import (FLV, AudioTag, VideoTag, ScriptTag,
+                          create_script_tag, create_flv_header)
+from flvlib3.helpers import force_remove
 
-log = logging.getLogger('flvlib.index-flv')
+log = logging.getLogger('flvlib3.index-flv')
 
 
 class IndexingAudioTag(AudioTag):
-
     SEEKPOINT_DENSITY = 10
 
-    def __init__(self, parent_flv, f):
-        AudioTag.__init__(self, parent_flv, f)
+    def __init__(self, parent_flv, stream):
+        super().__init__(parent_flv, stream)
 
     def parse(self):
         parent = self.parent_flv
@@ -30,7 +29,6 @@ class IndexingAudioTag(AudioTag):
 
         if not parent.first_media_tag_offset:
             parent.first_media_tag_offset = self.offset
-
 
         # If the FLV has video, we're done. No need to store audio seekpoint
         # information anymore.
@@ -40,8 +38,8 @@ class IndexingAudioTag(AudioTag):
         # We haven't seen any video tag yet. Store every SEEKPOINT_DENSITY tag
         # offset and timestamp.
         parent.audio_tag_number += 1
-        if (parent.audio_tag_number % self.SEEKPOINT_DENSITY == 0):
-            parent.audio_seekpoints.filepositions.append(self.offset)
+        if parent.audio_tag_number % self.SEEKPOINT_DENSITY == 0:
+            parent.audio_seekpoints.file_positions.append(self.offset)
             parent.audio_seekpoints.times.append(self.timestamp / 1000.0)
 
 
@@ -57,8 +55,8 @@ class IndexingVideoTag(VideoTag):
             parent.first_media_tag_offset = self.offset
 
         if self.frame_type == FRAME_TYPE_KEYFRAME:
-            parent.keyframes.filepositions.append(self.offset)
-            parent.keyframes.times.append(self.timestamp / 1000.0)
+            parent.keyframes.file_positions.append(self.offset)
+            parent.keyframes.times.append(self.timestamp / 1000)
 
 
 class IndexingScriptTag(ScriptTag):
@@ -67,10 +65,10 @@ class IndexingScriptTag(ScriptTag):
         parent = self.parent_flv
         ScriptTag.parse(self)
 
-        if self.name == 'onMetaData':
+        if self.name == b'onMetaData':
             parent.metadata = self.variable
             parent.metadata_tag_start = self.offset
-            parent.metadata_tag_end = self.f.tell()
+            parent.metadata_tag_end = self.stream.tell()
 
 
 tag_to_class = {
@@ -82,11 +80,11 @@ tag_to_class = {
 
 class IndexingFLV(FLV):
 
-    def __init__(self, f):
-        FLV.__init__(self, f)
+    def __init__(self, stream):
+        super().__init__(stream)
         self.metadata = None
         self.keyframes = FLVObject()
-        self.keyframes.filepositions = []
+        self.keyframes.file_positions = []
         self.keyframes.times = []
         self.no_video = True
 
@@ -94,13 +92,13 @@ class IndexingFLV(FLV):
         # some info in the metadata anyway -- Flash players use keyframe
         # information as a seek table. In audio-only FLV files you can usually
         # seek to the beginning of any tag (this is not entirely true for AAC).
-        # Most players still work if you just provide "keyframe" info that's
+        # Most players still work if you just provide 'keyframe' info that's
         # really a table of every Nth audio tag, even with AAC.
         # Because of that, until we see a video tag we make every Nth
         # IndexingAudioTag store its offset and timestamp.
         self.audio_tag_number = 0
         self.audio_seekpoints = FLVObject()
-        self.audio_seekpoints.filepositions = []
+        self.audio_seekpoints.file_positions = []
         self.audio_seekpoints.times = []
 
         self.metadata_tag_start = None
@@ -111,87 +109,86 @@ class IndexingFLV(FLV):
         try:
             return tag_to_class[tag_type]
         except KeyError:
-            raise MalformedFLV("Invalid tag type: %d", tag_type)
+            raise MalformedFLV('Invalid tag type: %d' % tag_type)
 
 
-def filepositions_difference(metadata, original_metadata_size):
+def file_positions_difference(metadata, original_metadata_size):
     test_payload = create_script_tag('onMetaData', metadata)
     payload_size = len(test_payload)
     difference = payload_size - original_metadata_size
     return test_payload, difference
 
 
-def retimestamp_and_index_file(inpath, outpath=None, retimestamp=None):
-
+def retimestamp_and_index_file(in_path, out_path=None, retimestamp=None):
     # no retimestamping needed
     if retimestamp is None:
 
-        return index_file(inpath, outpath)
+        return index_file(in_path, out_path)
 
     # retimestamp the input in place and index
     elif retimestamp == 'inplace':
-        from flvlib.scripts.retimestamp_flv import retimestamp_file_inplace
+        from flvlib3.scripts.retimestamp_flv import retimestamp_file_inplace
 
-        log.debug("Retimestamping file `%s' in place", inpath)
+        log.debug('Retimestamping file "%s" in place', in_path)
 
         # retimestamp the file inplace
-        if not retimestamp_file_inplace(inpath):
-            log.error("Failed to retimestamp `%s' in place", inpath)
+        if not retimestamp_file_inplace(in_path):
+            log.error('Failed to retimestamp "%s" in place', in_path)
             return False
 
-        return index_file(inpath, outpath)
+        return index_file(in_path, out_path)
 
     # retimestamp the input into a temporary file
     elif retimestamp == 'atomic':
-        from flvlib.scripts.retimestamp_flv import retimestamp_file_atomically
+        from flvlib3.scripts.retimestamp_flv import retimestamp_file_atomically
 
-        log.debug("Retimestamping file `%s' atomically", inpath)
+        log.debug('Retimestamping file "%s" atomically', in_path)
 
         try:
-            fd, temppath = tempfile.mkstemp()
+            fd, temp_path = tempfile.mkstemp()
             os.close(fd)
             # preserve the permission bits
-            shutil.copymode(inpath, temppath)
-        except EnvironmentError, (errno, strerror):
-            log.error("Failed to create temporary file: %s", strerror)
+            shutil.copymode(in_path, temp_path)
+        except EnvironmentError as e:
+            log.error('Failed to create temporary file: %s', e)
             return False
 
-        if not retimestamp_file_atomically(inpath, temppath):
-            log.error("Failed to retimestamp `%s' atomically", inpath)
+        if not retimestamp_file_atomically(in_path, temp_path):
+            log.error('Failed to retimestamp "%s" atomically', in_path)
             # remove the temporary files
-            force_remove(temppath)
+            force_remove(temp_path)
             return False
 
         # index the temporary file
-        if not index_file(temppath, outpath):
-            force_remove(temppath)
+        if not index_file(temp_path, out_path):
+            force_remove(temp_path)
             return False
 
-        if not outpath:
+        if not out_path:
             # If we were not writing directly to the output file
             # we need to overwrite the original
             try:
-                shutil.move(temppath, inpath)
-            except EnvironmentError, (errno, strerror):
-                log.error("Failed to overwrite the original file with the "
-                          "retimestamped and indexed version: %s", strerror)
+                shutil.move(temp_path, in_path)
+            except EnvironmentError as e:
+                log.error('Failed to overwrite the original file with the '
+                          'retimestamped and indexed version: %s', e)
                 return False
         else:
             # if we were writing directly to the output file we need to remove
             # the retimestamped temporary file
-            force_remove(temppath)
+            force_remove(temp_path)
 
         return True
 
 
-def index_file(inpath, outpath=None):
-    out_text = (outpath and ("into file `%s'" % outpath)) or "and overwriting"
-    log.debug("Indexing file `%s' %s", inpath, out_text)
+def index_file(in_path, out_path=None):
+    out_text = (out_path and ('into file "%s"' % out_path)) or 'and overwriting'
+    log.debug('Indexing file "%s" %s', in_path, out_text)
 
     try:
-        f = open(inpath, 'rb')
-    except IOError, (errno, strerror):
-        log.error("Failed to open `%s': %s", inpath, strerror)
+        f = open(in_path, 'rb')
+    except IOError as e:
+        log.error('Failed to open "%s": %s', in_path, e)
         return False
 
     flv = IndexingFLV(f)
@@ -199,30 +196,26 @@ def index_file(inpath, outpath=None):
     last_tag = None
 
     try:
-        while True:
-            tag = tag_iterator.next()
-            # some buggy software, like gstreamer's flvmux, puts a metadata tag
+        for tag in tag_iterator:
+            # some buggy software, like GStreamer's flvmux, puts a metadata tag
             # at the end of the file with timestamp 0, and we don't want to
             # base our duration computation on that
             if tag.timestamp != 0:
                 last_tag = tag
-    except MalformedFLV, e:
-        message = e[0] % e[1:]
-        log.error("The file `%s' is not a valid FLV file: %s", inpath, message)
+    except MalformedFLV as e:
+        log.error('The file "%s" is not a valid FLV file: %s', in_path, e)
         return False
-    except EndOfFile:
-        log.error("Unexpected end of file on file `%s'", inpath)
+    except EOFError:
+        log.error('Unexpected end of file on file "%s"', in_path)
         return False
-    except StopIteration:
-        pass
 
     if not flv.first_media_tag_offset:
-        log.error("The file `%s' does not have any media content", inpath)
+        log.error('The file "%s" does not have any media content', in_path)
         return False
 
     if not last_tag:
-        log.error("The file `%s' does not have any content with a "
-                  "non-zero timestamp", inpath)
+        log.error('The file "%s" does not have any content with a '
+                  'non-zero timestamp', in_path)
         return False
 
     metadata = flv.metadata or {}
@@ -230,14 +223,14 @@ def index_file(inpath, outpath=None):
     if flv.metadata_tag_start:
         original_metadata_size = flv.metadata_tag_end - flv.metadata_tag_start
     else:
-        log.debug("The file `%s' has no metadata", inpath)
+        log.debug('The file "%s" has no metadata', in_path)
         original_metadata_size = 0
 
     keyframes = flv.keyframes
 
     if flv.no_video:
-        log.info("The file `%s' has no video, using audio seekpoints info",
-                 inpath)
+        log.info('The file "%s" has no video, using audio seekpoints info',
+                 in_path)
         keyframes = flv.audio_seekpoints
 
     duration = metadata.get('duration')
@@ -248,40 +241,38 @@ def index_file(inpath, outpath=None):
 
     metadata['duration'] = duration
     metadata['keyframes'] = keyframes
-    metadata['metadatacreator'] = 'flvlib %s' % __versionstr__
+    metadata['metadata_creator'] = 'flvlib3 %s' % __version__
 
     # we're going to write new metadata, so we need to shift the
-    # filepositions by the amount of bytes that we're going to add to
+    # file_positions by the amount of bytes that we're going to add to
     # the metadata tag
-    test_payload, difference = filepositions_difference(metadata,
-                                                        original_metadata_size)
+    test_payload, difference = file_positions_difference(metadata, original_metadata_size)
 
     if difference:
-        new_filepositions = [pos + difference
-                             for pos in keyframes.filepositions]
-        metadata['keyframes'].filepositions = new_filepositions
+        new_file_positions = [pos + difference for pos in keyframes.file_positions]
+        metadata['keyframes'].file_positions = new_file_positions
         payload = create_script_tag('onMetaData', metadata)
     else:
-        log.debug("The file `%s' metadata size did not change.", inpath)
+        log.debug('The file "%s" metadata size did not change.', in_path)
         payload = test_payload
 
-    if outpath:
+    if out_path:
         try:
-            fo = open(outpath, 'wb')
-        except IOError, (errno, strerror):
-            log.error("Failed to open `%s': %s", outpath, strerror)
+            fo = open(out_path, 'wb')
+        except IOError as e:
+            log.error('Failed to open "%s": %s', out_path, e)
             return False
     else:
         try:
-            fd, temppath = tempfile.mkstemp()
+            fd, temp_path = tempfile.mkstemp()
             # preserve the permission bits
-            shutil.copymode(inpath, temppath)
+            shutil.copymode(in_path, temp_path)
             fo = os.fdopen(fd, 'wb')
-        except EnvironmentError, (errno, strerror):
-            log.error("Failed to create temporary file: %s", strerror)
+        except EnvironmentError as e:
+            log.error('Failed to create temporary file: %s', e)
             return False
 
-    log.debug("Creating the output file")
+    log.debug('Creating the output file')
 
     try:
         fo.write(create_flv_header(has_audio=flv.has_audio,
@@ -289,70 +280,77 @@ def index_file(inpath, outpath=None):
         fo.write(payload)
         f.seek(flv.first_media_tag_offset)
         shutil.copyfileobj(f, fo)
-    except IOError, (errno, strerror):
-        log.error("Failed to create the indexed file: %s", strerror)
-        if not outpath:
+    except IOError as e:
+        log.error('Failed to create the indexed file: %s', e)
+        if not out_path:
             # remove the temporary file
-            force_remove(temppath)
+            force_remove(temp_path)
         return False
 
     f.close()
     fo.close()
 
-    if not outpath:
+    if not out_path:
         # If we were not writing directly to the output file
         # we need to overwrite the original
         try:
-            shutil.move(temppath, inpath)
-        except EnvironmentError, (errno, strerror):
-            log.error("Failed to overwrite the original file "
-                      "with the indexed version: %s", strerror)
+            shutil.move(temp_path, in_path)
+        except EnvironmentError as e:
+            log.error('Failed to overwrite the original file with the indexed version: %s', e)
             return False
 
     return True
 
 
 def process_options():
-    usage = "%prog [-U] file [outfile|file2 file3 ...]"
-    description = ("Finds keyframe timestamps and file offsets "
-                   "in FLV files and updates the onMetaData "
-                   "script tag with that information. "
-                   "With the -U (update) option operates on all parameters, "
-                   "overwriting the original file. Without the -U "
-                   "option accepts one input and one output file path.")
-    version = "%%prog flvlib %s" % __versionstr__
+    usage = '%prog [-U] file [out_file|file2 file3 ...]'
+    description = (
+        'Finds keyframe timestamps and file offsets'
+        'in FLV files and updates the onMetaData'
+        'script tag with that information.'
+        'With the -U (update) option operates on all parameters,'
+        'overwriting the original file. Without the -U'
+        'option accepts one input and one output file path.'
+    )
+    version = '%%prog flvlib3 %r' % __version__
     parser = OptionParser(usage=usage, description=description,
                           version=version)
-    parser.add_option("-U", "--update", action="store_true",
-                      help=("update mode, overwrites the given files "
-                            "instead of writing to outfile"))
-    parser.add_option("-r", "--retimestamp", action="store_true",
-                      help=("rewrite timestamps in the files before indexing, "
-                            "identical to running retimestamp-flv first"))
-    parser.add_option("-R", "--retimestamp-inplace", action="store_true",
-                      help=("same as -r but avoid creating temporary files at "
-                            "the risk of corrupting the input files in case "
-                            "of errors"))
-    parser.add_option("-v", "--verbose", action="count",
-                      default=0, dest="verbosity",
-                      help="be more verbose, each -v increases verbosity")
+    parser.add_option('-U', '--update', action='store_true',
+                      help=('update mode, overwrites the given files '
+                            'instead of writing to out_file'))
+    parser.add_option('-r', '--retimestamp', action='store_true',
+                      help=('rewrite timestamps in the files before indexing, '
+                            'identical to running retimestamp-flv first'))
+    parser.add_option('-R', '--retimestamp-inplace', action='store_true',
+                      help=('same as -r but avoid creating temporary files at '
+                            'the risk of corrupting the input files in case '
+                            'of errors'))
+    parser.add_option('-v', '--verbose', action='count',
+                      default=0, dest='verbosity',
+                      help='be more verbose, each -v increases verbosity')
     options, args = parser.parse_args(sys.argv)
 
     if len(args) < 2:
-        parser.error("You have to provide at least one file path")
+        parser.error('You have to provide at least one file path')
 
     if not options.update and len(args) != 3:
-        parser.error("You need to provide one infile and one outfile "
-                     "when not using the update mode")
+        parser.error('You need to provide one in_file and one out_file '
+                     'when not using the update mode')
 
     if options.retimestamp and options.retimestamp_inplace:
-        parser.error("You cannot provide both -r and -R")
+        parser.error('You cannot provide both -r and -R')
 
     if options.verbosity > 3:
         options.verbosity = 3
 
-    log.setLevel({0: logging.ERROR, 1: logging.WARNING,
-                  2: logging.INFO, 3: logging.DEBUG}[options.verbosity])
+    level = ({
+        0: logging.ERROR,
+        1: logging.WARNING,
+        2: logging.INFO,
+        3: logging.DEBUG
+    }[options.verbosity])
+
+    log.setLevel(level)
 
     return options, args
 
@@ -369,12 +367,10 @@ def index_files():
         retimestamp_mode = 'inplace'
 
     if not options.update:
-        clean_run = retimestamp_and_index_file(args[1], args[2],
-                                               retimestamp=retimestamp_mode)
+        clean_run = retimestamp_and_index_file(args[1], args[2], retimestamp=retimestamp_mode)
     else:
         for filename in args[1:]:
-            if not retimestamp_and_index_file(filename,
-                                              retimestamp=retimestamp_mode):
+            if not retimestamp_and_index_file(filename, retimestamp=retimestamp_mode):
                 clean_run = False
 
     return clean_run
@@ -387,11 +383,8 @@ def main():
         # give the right exit status, 128 + signal number
         # signal.SIGINT = 2
         sys.exit(128 + 2)
-    except EnvironmentError, (errno, strerror):
-        try:
-            print >>sys.stderr, strerror
-        except StandardError:
-            pass
+    except EnvironmentError as e:
+        print(e, file=sys.stderr)
         sys.exit(2)
 
     if outcome:

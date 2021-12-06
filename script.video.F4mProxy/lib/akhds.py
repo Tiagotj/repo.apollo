@@ -5,9 +5,9 @@ import io
 import os
 import time
 import itertools
-import urllib2,urllib
+import urllib.request, urllib.error, urllib.parse,urllib.request,urllib.parse,urllib.error
 import traceback
-import urlparse
+import urllib.parse
 import posixpath
 import re
 import hmac
@@ -15,7 +15,7 @@ import hashlib
 import binascii 
 import zlib
 from hashlib import sha256, sha1,md5,sha512
-import cookielib
+import http.cookiejar
 import array
 import socket
 #from multiprocessing.connection import Client
@@ -40,10 +40,10 @@ try:
     from Crypto.Cipher import AES
 
     USEDec=1 ## 1==crypto 2==local, local pycrypto
-    print 'using pycrypt wooot woot'
+    print('using pycrypt wooot woot')
 except:
-    print 'pycrypt not available trying other options'
-    print traceback.print_exc()
+    print('pycrypt not available trying other options')
+    print((traceback.print_exc()))
     USEDec=3 ## 1==crypto 2==local, local pycrypto
     #check if its android
     if xbmc.getCondVisibility('System.Platform.Android'):
@@ -51,14 +51,14 @@ except:
             import androidsslPy
             AES=androidsslPy._load_crypto_libcrypto()
             USEDec=2 ## android
-            print 'using android ssllib woot woot'
+            print('using android ssllib woot woot')
         except: 
-            print traceback.print_exc()
-            print 'android copy not available'    
+            print((traceback.print_exc()))
+            print('android copy not available')    
             from f4mUtils import python_aes
-            print 'using slow decryption'  
+            print('using slow decryption')  
     else:
-        print 'using slow decryption'  
+        print('using slow decryption')  
         from f4mUtils import python_aes
 
 
@@ -182,11 +182,11 @@ def tagDecrypt(data,key):
         
     decData+=unEncdata
     if 1==2 and len(decData)<300:
-        print 'enc data received',binascii.hexlify(enc_data_todec), len(enc_data_todec)
-        print 'iv received',binascii.hexlify(global_iv), len(global_iv)
-        print 'key received',binascii.hexlify(stage_5_hmac), len(stage_5_hmac)
-        print 'data received',binascii.hexlify(data), len(data)
-        print 'final return',binascii.hexlify(decData), len(decData)
+        print(('enc data received',binascii.hexlify(enc_data_todec), len(enc_data_todec)))
+        print(('iv received',binascii.hexlify(global_iv), len(global_iv)))
+        print(('key received',binascii.hexlify(stage_5_hmac), len(stage_5_hmac)))
+        print(('data received',binascii.hexlify(data), len(data)))
+        print(('final return',binascii.hexlify(decData), len(decData)))
     return decData
 
 ## function to create the cbc decrypter object
@@ -220,7 +220,7 @@ def decryptData(d,encdata,iv):
 def cleanup():
     try:
         if USEDec==2:
-            print 'doing android cleanup'
+            print('doing android cleanup')
             #AndroidCrypto.teardown()
             #print 'android cleanup'
     except:

@@ -1,6 +1,6 @@
 #! /usr/bin/python
 
-from __future__ import with_statement
+
 
 # ignobleepub.pyw, version 3.5
 # modified by shani and adapted it for android

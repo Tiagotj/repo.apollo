@@ -9,9 +9,11 @@ import time
 import itertools
 import xbmcaddon
 import xbmc
-import urllib2,urllib
+import xbmcvfs
+
+import urllib.request, urllib.error, urllib.parse,urllib.request,urllib.parse,urllib.error
 import traceback
-import urlparse
+import urllib.parse
 import posixpath
 import re
 import socket
@@ -21,7 +23,7 @@ from flvlib import helpers
 from flvlib.astypes import MalformedFLV
 
 import zlib
-from StringIO import StringIO
+from io import StringIO
 import hmac
 import hashlib
 import base64
@@ -30,7 +32,7 @@ addon_id = 'script.video.F4mProxy'
 selfAddon = xbmcaddon.Addon(id=addon_id)
 __addonname__   = selfAddon.getAddonInfo('name')
 __icon__        = selfAddon.getAddonInfo('icon')
-downloadPath   = xbmc.translatePath(selfAddon.getAddonInfo('profile'))#selfAddon["profile"])
+downloadPath   = xbmcvfs.translatePath(selfAddon.getAddonInfo('profile'))#selfAddon["profile"])
 #F4Mversion=''
 
 class interalSimpleDownloader():
@@ -45,12 +47,12 @@ class interalSimpleDownloader():
     def openUrl(self,url, ischunkDownloading=False):
         try:
             post=None
-            openner = urllib2.build_opener(urllib2.HTTPHandler, urllib2.HTTPSHandler)
+            openner = urllib.request.build_opener(urllib.request.HTTPHandler, urllib.request.HTTPSHandler)
 
             if post:
-                req = urllib2.Request(url, post)
+                req = urllib.request.Request(url, post)
             else:
-                req = urllib2.Request(url)
+                req = urllib.request.Request(url)
             
             ua_header=False
             if self.clientHeader:
@@ -68,19 +70,19 @@ class interalSimpleDownloader():
 
             return response
         except:
-            print 'Error in getUrl'
+            print('Error in getUrl')
             traceback.print_exc()
         return None
 
     def getUrl(self,url, ischunkDownloading=False):
         try:
             post=None
-            openner = urllib2.build_opener(urllib2.HTTPHandler, urllib2.HTTPSHandler)
+            openner = urllib.request.build_opener(urllib.request.HTTPHandler, urllib.request.HTTPSHandler)
 
             if post:
-                req = urllib2.Request(url, post)
+                req = urllib.request.Request(url, post)
             else:
-                req = urllib2.Request(url)
+                req = urllib.request.Request(url)
             
             ua_header=False
             if self.clientHeader:
@@ -100,7 +102,7 @@ class interalSimpleDownloader():
             return data
 
         except:
-            print 'Error in getUrl'
+            print('Error in getUrl')
             traceback.print_exc()
         return None
             
@@ -120,9 +122,9 @@ class interalSimpleDownloader():
                 sp = url.split('|')
                 url = sp[0]
                 self.clientHeader = sp[1]
-                self.clientHeader= urlparse.parse_qsl(self.clientHeader)
+                self.clientHeader= urllib.parse.parse_qsl(self.clientHeader)
                 
-            print 'header recieved now url and headers are',url, self.clientHeader 
+            print(('header recieved now url and headers are',url, self.clientHeader)) 
             self.status='init done'
             self.url=url
             #self.downloadInternal(  url)
@@ -168,22 +170,22 @@ class interalSimpleDownloader():
                             if firstBlock:
                                 firstBlock=False
                                 if self.maxbitRate and self.maxbitRate>0:# this is for being sports for time being
-                                    print 'maxbitrate',self.maxbitRate
+                                    print(('maxbitrate',self.maxbitRate))
                                     ec=EdgeClass(buf,url,'http://www.en.beinsports.net/i/PerformConsole_BEIN/player/bin-release/PerformConsole.swf',sendToken=False)                                
                                     ec.switchStream(self.maxbitRate,"DOWN")
                         except:
                             traceback.print_exc()
                     response.close()
                     fileout.close()
-                    print time.asctime(), "Closing connection"
-                except socket.error, e:
-                    print time.asctime(), "Client Closed the connection."
+                    print((time.asctime(), "Closing connection"))
+                except socket.error as e:
+                    print((time.asctime(), "Client Closed the connection."))
                     try:
                         response.close()
                         fileout.close()
-                    except Exception, e:
+                    except Exception as e:
                         return
-                except Exception, e:
+                except Exception as e:
                     traceback.print_exc(file=sys.stdout)
                     response.close()
                     fileout.close()
@@ -201,9 +203,9 @@ class EdgeClass():
         self.onEdge = self.extractTags(data,onEdge=True)
         self.sessionID=self.onEdge['session']
         self.path=self.onEdge['streamName']
-        print 'session',self.onEdge['session']
-        print 'Edge variable',self.onEdge
-        print 'self.control',self.control
+        print(('session',self.onEdge['session']))
+        print(('Edge variable',self.onEdge))
+        print(('self.control',self.control))
         #self.MetaData = self.extractTags(data,onMetaData=True)
         if sendToken:
             self.sendNewToken(self.onEdge['session'],self.onEdge['streamName'],self.swfUrl,self.control)
@@ -211,8 +213,8 @@ class EdgeClass():
 
     def getURL(self, url, post=False, sessionID=False, sessionToken=False):
         try:
-            print 'GetURL --> url = '+url
-            opener = urllib2.build_opener()
+            print(('GetURL --> url = '+url))
+            opener = urllib.request.build_opener()
             if sessionID and sessionToken:
                 opener.addheaders = [('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:14.0) Gecko/20100101 Firefox/14.0.1' ),
                                      ('x-Akamai-Streaming-SessionToken', sessionToken ),
@@ -231,8 +233,8 @@ class EdgeClass():
                 usock=opener.open(url,':)')
             response=usock.read()
             usock.close()
-        except urllib2.URLError, e:
-            print 'Error reason: ', e
+        except urllib.error.URLError as e:
+            print(('Error reason: ', e))
             return False
         else:
             return response
@@ -248,7 +250,7 @@ class EdgeClass():
                         return tag.variable
                     elif tag.name == "onMetaData" and onMetaData:
                         return tag.variable
-        except MalformedFLV, e:
+        except MalformedFLV as e:
             return False
         except tags.EndOfFile:
             return False
@@ -290,9 +292,9 @@ class EdgeClass():
         
     def switchStream(self, bitrate, upDown="UP"):
         newStream=self.path
-        print 'newStream before ',newStream
+        print(('newStream before ',newStream))
         newStream=re.sub('_[0-9]*@','_'+str(bitrate)+'@',newStream)
-        print 'newStream after ',newStream,bitrate
+        print(('newStream after ',newStream,bitrate))
         sessionToken =None# self.makeToken(sessionID,swf)
         commandUrl = self.control+newStream+'?cmd=&reason=SWITCH_'+upDown+',1784,1000,1.3,2,'+self.path+'v=2.11.3'
         self.getURL(commandUrl,True,self.sessionID,sessionToken)

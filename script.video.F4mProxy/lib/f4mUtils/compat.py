@@ -19,7 +19,7 @@ if sys.version_info >= (3,0):
     def compatHMAC(x): return bytes(x)
     
     def raw_input(s):
-        return input(s)
+        return eval(input(s))
     
     # So, the python3 binascii module deals with bytearrays, and python2
     # deals with strings...  I would rather deal with the "a" part as
@@ -82,6 +82,6 @@ else:
         
 import traceback
 def formatExceptionTrace(e):
-    newStr = "".join(traceback.format_exception(sys.exc_type, sys.exc_value, sys.exc_traceback))
+    newStr = "".join(traceback.format_exception(sys.exc_info()[0], sys.exc_info()[1], sys.exc_info()[2]))
     return newStr
 

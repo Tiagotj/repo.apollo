@@ -8,7 +8,7 @@
 """cryptomath module
 
 This module has basic math/crypto code."""
-from __future__ import print_function
+
 import os
 import math
 import base64
@@ -207,7 +207,7 @@ if gmpyLoaded:
         power = gmpy.mpz(power)
         modulus = gmpy.mpz(modulus)
         result = pow(base, power, modulus)
-        return long(result)
+        return int(result)
 
 else:
     def powMod(base, power, modulus):
@@ -241,7 +241,7 @@ def isPrime(n, iterations=5, display=False):
     #Passed trial division, proceed to Rabin-Miller
     #Rabin-Miller implemented per Ferguson & Schneier
     #Compute s, t for Rabin-Miller
-    if display: print("*", end=' ')
+    if display: print("*")
     s, t = n-1, 0
     while s % 2 == 0:
         s, t = s//2, t+1
@@ -273,7 +273,7 @@ def getRandomPrime(bits, display=False):
     p = getRandomNumber(low, high)
     p += 29 - (p % 30)
     while 1:
-        if display: print(".", end=' ')
+        if display: print(".")
         p += 30
         if p >= high:
             p = getRandomNumber(low, high)
@@ -295,7 +295,7 @@ def getRandomSafePrime(bits, display=False):
     q = getRandomNumber(low, high)
     q += 29 - (q % 30)
     while 1:
-        if display: print(".", end=' ')
+        if display: print(".")
         q += 30
         if (q >= high):
             q = getRandomNumber(low, high)
