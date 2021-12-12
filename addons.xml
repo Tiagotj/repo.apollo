@@ -99,7 +99,7 @@ v1.0.3.matrix.1
 	</extension>
 </addon>
 
-<addon id="plugin.video.f4mTester18" version="3.0.1.1" name="f4mTester" provider-name="Shani">
+<addon id="plugin.video.f4mTester18" version="3.0.1.1" name="f4mTester 18" provider-name="Shani">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
         <import addon="script.video.F4mProxy" version="3.0.1.1"/>
@@ -116,7 +116,7 @@ v1.0.3.matrix.1
     </extension>
 </addon>
 
-<addon id="plugin.video.f4mTester19" version="4.0.5" name="f4mTester" provider-name="Joel e Tiago">
+<addon id="plugin.video.f4mTester19" version="4.0.5" name="f4mTester 19" provider-name="Joel e Tiago">
     <requires>
         <import addon="xbmc.python" version="3.0.0"/>
 		<import addon="script.video.F4mProxy" version="4.0.5"/>
@@ -670,7 +670,7 @@ AMF3, the default serialization for ActionScript 3.0, provides various advantage
 </addon>
 
 <addon id="script.video.F4mProx19"
-	     name="F4mProxy"
+	     name="F4mProxy 19"
 	     version="4.0.5"
 	     provider-name="Joel e Tiago">
 	<requires>
@@ -693,7 +693,7 @@ AMF3, the default serialization for ActionScript 3.0, provides various advantage
 	</extension>
 </addon>
 
-<addon id="script.video.F4mProxy18" name="F4mProxy" version="2.8.8" provider-name="Shani">
+<addon id="script.video.F4mProxy18" name="F4mProxy 18" version="2.8.8" provider-name="Shani">
     <requires>
         <import addon="xbmc.python" version="2.1.0" />
         <import addon="script.module.requests" />
