@@ -45,7 +45,7 @@
 </extension>
 </addon>
 
-<addon id="plugin.video.apollo.matrix" name="APOLLO" version="1.0.4+matrix.1" provider-name="TEAM APOLLO">
+<addon id="plugin.video.apollo.matrix" name="APOLLO" version="1.0.5+matrix.1" provider-name="TEAM APOLLO">
 <requires>
     <import addon="xbmc.python" version="3.0.0"/>
     <import addon="script.module.requests"/>
@@ -70,7 +70,7 @@
        <fanart>fanart.jpg</fanart>
     </assets>
 	<news>
-v1.0.3.matrix.1
+v1.0.5.matrix.1
 - Addon Apollo
 	</news>
 </extension>
